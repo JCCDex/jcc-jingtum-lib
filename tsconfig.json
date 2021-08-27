@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "lib": ["ES2018"],
+    "outDir": "lib",
+    "rootDir": "src",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "noUnusedLocals": true,
+    "declaration": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "sourceMap": false,
+    "types": ["node", "jest"]
+  },
+  "include": ["src/**/*"]
+}
