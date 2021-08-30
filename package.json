@@ -47,5 +47,10 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "dependencies": {
+    "axios": "^0.21.1",
+    "jcc_exchange": "^3.1.18",
+    "jcc_wallet": "^1.0.6"
+  }
 }
