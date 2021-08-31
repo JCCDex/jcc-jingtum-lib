@@ -68,7 +68,7 @@ export class Wallet {
     const sendBlob = this.serializer.from_json(copyTx);
     return {
       hash,
-      blob: sendBlob.toHex()
+      blob: sendBlob.to_hex()
     };
   }
 }
@@ -105,8 +105,8 @@ export class Transaction extends Wallet {
 
   public buildPayment(address: string, amount: string, to: string, token: string, memo, issuer) {
     let _amount;
-    const fee = super.wallet.getFee();
-    const currency = super.wallet.getCurrency();
+    const fee = this.wallet.getFee();
+    const currency = this.wallet.getCurrency();
     if (token.toUpperCase() === currency) {
       _amount = amount;
     } else {
