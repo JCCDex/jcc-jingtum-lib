@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>ChainOption | @jccdex/jingtum-lib</title>
+    <title>IPayment721 | @jccdex/jingtum-lib</title>
     <meta name="description" content="Documentation for @jccdex/jingtum-lib" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../assets/css/main.css" />
@@ -55,10 +55,10 @@
               <a href="../modules.html">@jccdex/jingtum-lib</a>
             </li>
             <li>
-              <a href="ChainOption.html">ChainOption</a>
+              <a href="IPayment721.html">IPayment721</a>
             </li>
           </ul>
-          <h1>Interface ChainOption</h1>
+          <h1>Interface IPayment721</h1>
         </div>
       </div>
     </header>
@@ -69,7 +69,7 @@
             <h3>Hierarchy</h3>
             <ul class="tsd-hierarchy">
               <li>
-                <span class="target">ChainOption</span>
+                <span class="target">IPayment721</span>
               </li>
             </ul>
           </section>
@@ -81,16 +81,19 @@
                   <h3>Properties</h3>
                   <ul class="tsd-index-list">
                     <li class="tsd-kind-property tsd-parent-kind-interface">
-                      <a href="ChainOption.html#ACCOUNT_ALPHABET" class="tsd-kind-icon">ACCOUNT_<wbr />ALPHABET</a>
+                      <a href="IPayment721.html#memo" class="tsd-kind-icon">memo</a>
                     </li>
                     <li class="tsd-kind-property tsd-parent-kind-interface">
-                      <a href="ChainOption.html#currency" class="tsd-kind-icon">currency</a>
+                      <a href="IPayment721.html#publisher" class="tsd-kind-icon">publisher</a>
                     </li>
                     <li class="tsd-kind-property tsd-parent-kind-interface">
-                      <a href="ChainOption.html#fee" class="tsd-kind-icon">fee</a>
+                      <a href="IPayment721.html#receiver" class="tsd-kind-icon">receiver</a>
                     </li>
                     <li class="tsd-kind-property tsd-parent-kind-interface">
-                      <a href="ChainOption.html#guomi" class="tsd-kind-icon">guomi</a>
+                      <a href="IPayment721.html#secret" class="tsd-kind-icon">secret</a>
+                    </li>
+                    <li class="tsd-kind-property tsd-parent-kind-interface">
+                      <a href="IPayment721.html#tokenId" class="tsd-kind-icon">token<wbr />Id</a>
                     </li>
                   </ul>
                 </section>
@@ -100,62 +103,76 @@
           <section class="tsd-panel-group tsd-member-group">
             <h2>Properties</h2>
             <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-              <a name="ACCOUNT_ALPHABET" class="tsd-anchor"></a>
-              <h3><span class="tsd-flag ts-flagOptional">Optional</span> ACCOUNT_<wbr />ALPHABET</h3>
+              <a name="memo" class="tsd-anchor"></a>
+              <h3><span class="tsd-flag ts-flagOptional">Optional</span> memo</h3>
               <div class="tsd-signature tsd-kind-icon">
-                ACCOUNT_<wbr />ALPHABET<span class="tsd-signature-symbol">:</span>
-                <span class="tsd-signature-type">string</span>
+                memo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span>
               </div>
               <aside class="tsd-sources">
                 <ul>
                   <li>
                     Defined in
-                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L25">index.ts:25</a>
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L20">index.ts:20</a>
                   </li>
                 </ul>
               </aside>
             </section>
             <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-              <a name="currency" class="tsd-anchor"></a>
-              <h3><span class="tsd-flag ts-flagOptional">Optional</span> currency</h3>
+              <a name="publisher" class="tsd-anchor"></a>
+              <h3>publisher</h3>
               <div class="tsd-signature tsd-kind-icon">
-                currency<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span>
+                publisher<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span>
               </div>
               <aside class="tsd-sources">
                 <ul>
                   <li>
                     Defined in
-                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L26">index.ts:26</a>
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L16">index.ts:16</a>
                   </li>
                 </ul>
               </aside>
             </section>
             <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-              <a name="fee" class="tsd-anchor"></a>
-              <h3><span class="tsd-flag ts-flagOptional">Optional</span> fee</h3>
+              <a name="receiver" class="tsd-anchor"></a>
+              <h3>receiver</h3>
               <div class="tsd-signature tsd-kind-icon">
-                fee<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span>
+                receiver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span>
               </div>
               <aside class="tsd-sources">
                 <ul>
                   <li>
                     Defined in
-                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L27">index.ts:27</a>
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L18">index.ts:18</a>
                   </li>
                 </ul>
               </aside>
             </section>
             <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-              <a name="guomi" class="tsd-anchor"></a>
-              <h3>guomi</h3>
+              <a name="secret" class="tsd-anchor"></a>
+              <h3>secret</h3>
               <div class="tsd-signature tsd-kind-icon">
-                guomi<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span>
+                secret<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span>
               </div>
               <aside class="tsd-sources">
                 <ul>
                   <li>
                     Defined in
-                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L24">index.ts:24</a>
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L17">index.ts:17</a>
+                  </li>
+                </ul>
+              </aside>
+            </section>
+            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+              <a name="tokenId" class="tsd-anchor"></a>
+              <h3>token<wbr />Id</h3>
+              <div class="tsd-signature tsd-kind-icon">
+                token<wbr />Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span>
+              </div>
+              <aside class="tsd-sources">
+                <ul>
+                  <li>
+                    Defined in
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/129a5ff/src/index.ts#L19">index.ts:19</a>
                   </li>
                 </ul>
               </aside>
@@ -178,33 +195,36 @@
               <li class="tsd-kind-class">
                 <a href="../classes/Wallet.html" class="tsd-kind-icon">Wallet</a>
               </li>
+              <li class="tsd-kind-interface">
+                <a href="ChainOption.html" class="tsd-kind-icon">Chain<wbr />Option</a>
+              </li>
+              <li class="tsd-kind-interface">
+                <a href="IPayment.html" class="tsd-kind-icon">IPayment</a>
+              </li>
             </ul>
             <ul class="current">
               <li class="current tsd-kind-interface">
-                <a href="ChainOption.html" class="tsd-kind-icon">Chain<wbr />Option</a>
+                <a href="IPayment721.html" class="tsd-kind-icon">IPayment721</a>
                 <ul>
                   <li class="tsd-kind-property tsd-parent-kind-interface">
-                    <a href="ChainOption.html#ACCOUNT_ALPHABET" class="tsd-kind-icon">ACCOUNT_<wbr />ALPHABET</a>
+                    <a href="IPayment721.html#memo" class="tsd-kind-icon">memo</a>
                   </li>
                   <li class="tsd-kind-property tsd-parent-kind-interface">
-                    <a href="ChainOption.html#currency" class="tsd-kind-icon">currency</a>
+                    <a href="IPayment721.html#publisher" class="tsd-kind-icon">publisher</a>
                   </li>
                   <li class="tsd-kind-property tsd-parent-kind-interface">
-                    <a href="ChainOption.html#fee" class="tsd-kind-icon">fee</a>
+                    <a href="IPayment721.html#receiver" class="tsd-kind-icon">receiver</a>
                   </li>
                   <li class="tsd-kind-property tsd-parent-kind-interface">
-                    <a href="ChainOption.html#guomi" class="tsd-kind-icon">guomi</a>
+                    <a href="IPayment721.html#secret" class="tsd-kind-icon">secret</a>
+                  </li>
+                  <li class="tsd-kind-property tsd-parent-kind-interface">
+                    <a href="IPayment721.html#tokenId" class="tsd-kind-icon">token<wbr />Id</a>
                   </li>
                 </ul>
               </li>
             </ul>
             <ul class="after-current">
-              <li class="tsd-kind-interface">
-                <a href="IPayment.html" class="tsd-kind-icon">IPayment</a>
-              </li>
-              <li class="tsd-kind-interface">
-                <a href="IPayment721.html" class="tsd-kind-icon">IPayment721</a>
-              </li>
               <li class="tsd-kind-interface">
                 <a href="SignResult.html" class="tsd-kind-icon">Sign<wbr />Result</a>
               </li>
