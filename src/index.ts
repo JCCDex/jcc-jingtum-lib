@@ -1,9 +1,7 @@
 import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
 import { HASHPREFIX } from "@swtc/common";
-
 import { fetchSequence, fetchTransaction, submitTransaction } from "./rpc";
-
 export interface IPayment {
   address: string;
   secret: string;
@@ -12,6 +10,14 @@ export interface IPayment {
   amount: string;
   memo?: string;
   issuer?: string;
+}
+
+export interface IPayment721 {
+  publisher: string; // erc721拥有者账号
+  secret: string; // erc721拥有者密钥
+  receiver: string; // 接收erc721账号
+  tokenId: string; // erc721唯一标识， hash256格式,
+  memo?: string;
 }
 
 export interface ChainOption {
@@ -118,7 +124,6 @@ export class Transaction extends Wallet {
     }
 
     let memos;
-
     if (typeof memo === "string") {
       memos = [
         {
@@ -142,6 +147,32 @@ export class Transaction extends Wallet {
       TransactionType: "Payment"
     };
 
+    return tx;
+  }
+
+  public build721Payment(address: string, to: string, token: string, memo) {
+    const fee = this.wallet.getFee();
+    let memos;
+    if (typeof memo === "string") {
+      memos = [
+        {
+          Memo: {
+            MemoData: memo,
+            MemoType: "string"
+          }
+        }
+      ];
+    } else {
+      memos = memo;
+    }
+    const tx = {
+      TransactionType: "TransferToken",
+      Account: address,
+      Destination: to,
+      TokenID: token.toUpperCase(),
+      Fee: fee / 1000000,
+      Memos: memos
+    };
     return tx;
   }
 
@@ -179,6 +210,23 @@ export class Transaction extends Wallet {
     const rpcNode = this.getNode();
     const sequence = await Transaction.fetchSequence(rpcNode, address);
     copyTx.Sequence = sequence;
+    const sign = this.sign(copyTx, secret);
+    const res = await submitTransaction(rpcNode, sign.blob);
+    if (!Transaction.isSuccess(res)) {
+      throw new Error(JSON.stringify(res));
+    }
+    return res;
+  }
+
+  public async payment721(data: IPayment721) {
+    const { publisher, receiver, tokenId, secret, memo } = data;
+
+    const tx = this.build721Payment(publisher, receiver, tokenId, memo);
+    const copyTx: any = Object.assign({}, tx);
+    const rpcNode = this.getNode();
+    const sequence = await Transaction.fetchSequence(rpcNode, publisher);
+    copyTx.Sequence = sequence;
+
     const sign = this.sign(copyTx, secret);
     const res = await submitTransaction(rpcNode, sign.blob);
     if (!Transaction.isSuccess(res)) {
