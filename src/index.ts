@@ -51,6 +51,64 @@ export interface IPayment721 {
   memo?: string;
 }
 
+interface TokenInfo {
+  type: string;
+  data: string;
+}
+
+export interface I721Publish {
+  /**
+   * erc721拥有者账号
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  publisher: string;
+  /**
+   * erc721拥有者密钥
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  secret: string;
+  /**
+   * 接收erc721账号
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  receiver: string;
+  /**
+   * erc721唯一标识， hash256格式
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  tokenId: string;
+  /**
+   * 转账备注
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+
+  /**
+   * token名称
+   *
+   * @type {string}
+   * @memberof I721Publish
+   */
+  token: string;
+
+  /**
+   * token信息
+   *
+   * @type {TokenInfo[]}
+   * @memberof I721Publish
+   */
+  tokenInfos?: TokenInfo[];
+}
+
 enum TokenFlag {
   /**
    * 可流通
@@ -416,6 +474,55 @@ export class Transaction extends Wallet {
     const { publisher, account, secret, amount, flag, token } = data;
 
     const tx = this.buildTokenIssue(account, publisher, amount, token, flag);
+    const copyTx: any = Object.assign({}, tx);
+    const rpcNode = this.getNode();
+    const sequence = await Transaction.fetchSequence(rpcNode, publisher);
+    copyTx.Sequence = sequence;
+
+    const sign = this.sign(copyTx, secret);
+    const res = await submitTransaction(rpcNode, sign.blob);
+    if (!Transaction.isSuccess(res)) {
+      throw new Error(JSON.stringify(res));
+    }
+    return res;
+  }
+
+  public build721Publish(address: string, to: string, token: string, tokenId: string, infos?: TokenInfo[]) {
+    const fee = this.wallet.getFee();
+    const tx: any = {
+      TransactionType: "TransferToken",
+      Account: address,
+      Destination: to,
+      TokenID: tokenId,
+      Fee: fee / 1000000,
+      FundCode: string2hex(utf8.encode(token))
+    };
+    const ms = [];
+    if (Array.isArray(infos) && infos.length > 0) {
+      for (const info of infos) {
+        ms.push({
+          TokenInfo: { InfoType: string2hex(utf8.encode(info.type)), InfoData: string2hex(utf8.encode(info.data)) }
+        });
+      }
+    }
+    if (ms.length > 0) {
+      tx.TokenInfos = ms;
+    }
+
+    return tx;
+  }
+
+  /**
+   * 发行721
+   *
+   * @param {I721Publish} data
+   * @returns
+   * @memberof Transaction
+   */
+  public async publish721(data: I721Publish) {
+    const { publisher, secret, token, tokenId, tokenInfos, receiver } = data;
+
+    const tx = this.build721Publish(publisher, receiver, token, tokenId, tokenInfos);
     const copyTx: any = Object.assign({}, tx);
     const rpcNode = this.getNode();
     const sequence = await Transaction.fetchSequence(rpcNode, publisher);
