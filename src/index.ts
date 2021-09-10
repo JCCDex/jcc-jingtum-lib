@@ -1,7 +1,8 @@
 import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
-import { HASHPREFIX } from "@swtc/common";
+import { HASHPREFIX, funcStringToHex as string2hex } from "@swtc/common";
 import { fetchSequence, fetchTransaction, submitTransaction } from "./rpc";
+const utf8 = require("utf8");
 export interface IPayment {
   address: string;
   secret: string;
@@ -13,11 +14,124 @@ export interface IPayment {
 }
 
 export interface IPayment721 {
-  publisher: string; // erc721拥有者账号
-  secret: string; // erc721拥有者密钥
-  receiver: string; // 接收erc721账号
-  tokenId: string; // erc721唯一标识， hash256格式,
+  /**
+   * erc721拥有者账号
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  publisher: string;
+  /**
+   * erc721拥有者密钥
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  secret: string;
+  /**
+   * 接收erc721账号
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  receiver: string;
+  /**
+   * erc721唯一标识， hash256格式
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
+  tokenId: string;
+  /**
+   * 转账备注
+   *
+   * @type {string}
+   * @memberof IPayment721
+   */
   memo?: string;
+}
+
+enum TokenFlag {
+  /**
+   * 可流通
+   */
+  CIRCULATION = 0,
+
+  /**
+   * 不可流通
+   */
+  NON_CIRCULATION = 1
+}
+
+export interface ITokenIssue {
+  /**
+   * 动态发币账号
+   *
+   * @type {string}
+   * @memberof ITokenIssue
+   */
+  account: string;
+
+  /**
+   * 动态发币密钥
+   *
+   * @type {string}
+   * @memberof ITokenIssue
+   */
+  secret: string;
+
+  /**
+   * 721token的发行账号
+   *
+   * @type {string}
+   * @memberof ITokenIssue
+   */
+  publisher: string;
+  /**
+   * 721token的发行名称
+   *
+   * @type {string}
+   * @memberof ITokenIssue
+   */
+  token: string;
+  /**
+   * 721token发行的数量
+   *
+   * @type {number}
+   * @memberof ITokenIssue
+   */
+  amount: number;
+  /**
+   * Token是否流通标志位，0表示可以流通，非0表示不可以流通。
+   *
+   * @type {TokenFlag}
+   * @memberof ITokenIssue
+   */
+  flag: TokenFlag;
+}
+
+export interface IDelete721 {
+  /**
+   * erc721拥有者账号
+   *
+   * @type {string}
+   * @memberof IDelete721
+   */
+  publisher: string;
+  /**
+   *  erc721拥有者密钥
+   *
+   * @type {string}
+   * @memberof IDelete721
+   */
+  secret: string;
+  /**
+   * erc721唯一标识， hash256格式
+   *
+   * @type {string}
+   * @memberof IDelete721
+   */
+  tokenId: string;
 }
 
 export interface ChainOption {
@@ -176,6 +290,17 @@ export class Transaction extends Wallet {
     return tx;
   }
 
+  public build721Delete(address: string, tokenId: string) {
+    const fee = this.wallet.getFee();
+    const tx = {
+      TransactionType: "TokenDel",
+      Account: address,
+      Fee: fee / 1000000,
+      TokenID: tokenId
+    };
+    return tx;
+  }
+
   public async fetchTransaction(hash: string) {
     let tx = null;
     for (const node of this.nodes) {
@@ -218,10 +343,79 @@ export class Transaction extends Wallet {
     return res;
   }
 
+  /**
+   * 721转账
+   *
+   * @param {IPayment721} data
+   * @returns
+   * @memberof Transaction
+   */
   public async payment721(data: IPayment721) {
     const { publisher, receiver, tokenId, secret, memo } = data;
 
     const tx = this.build721Payment(publisher, receiver, tokenId, memo);
+    const copyTx: any = Object.assign({}, tx);
+    const rpcNode = this.getNode();
+    const sequence = await Transaction.fetchSequence(rpcNode, publisher);
+    copyTx.Sequence = sequence;
+
+    const sign = this.sign(copyTx, secret);
+    const res = await submitTransaction(rpcNode, sign.blob);
+    if (!Transaction.isSuccess(res)) {
+      throw new Error(JSON.stringify(res));
+    }
+    return res;
+  }
+
+  /**
+   * 删除721
+   *
+   * @param {IDelete721} data
+   * @returns
+   * @memberof Transaction
+   */
+  public async delete721(data: IDelete721) {
+    const { publisher, tokenId, secret } = data;
+
+    const tx = this.build721Delete(publisher, tokenId);
+    const copyTx: any = Object.assign({}, tx);
+    const rpcNode = this.getNode();
+    const sequence = await Transaction.fetchSequence(rpcNode, publisher);
+    copyTx.Sequence = sequence;
+
+    const sign = this.sign(copyTx, secret);
+    const res = await submitTransaction(rpcNode, sign.blob);
+    if (!Transaction.isSuccess(res)) {
+      throw new Error(JSON.stringify(res));
+    }
+    return res;
+  }
+
+  public buildTokenIssue(account: string, publisher: string, amount: number, token: string, flag: TokenFlag) {
+    const fee = this.wallet.getFee();
+    const tx = {
+      TransactionType: "TokenIssue",
+      Account: account,
+      Fee: fee / 1000000,
+      FundCode: string2hex(utf8.encode(token)),
+      TokenSize: amount,
+      Issuer: publisher,
+      Flags: flag
+    };
+    return tx;
+  }
+
+  /**
+   * 设置发行权限
+   *
+   * @param {ITokenIssue} data
+   * @returns
+   * @memberof Transaction
+   */
+  public async setTokenIssue(data: ITokenIssue) {
+    const { publisher, account, secret, amount, flag, token } = data;
+
+    const tx = this.buildTokenIssue(account, publisher, amount, token, flag);
     const copyTx: any = Object.assign({}, tx);
     const rpcNode = this.getNode();
     const sequence = await Transaction.fetchSequence(rpcNode, publisher);
