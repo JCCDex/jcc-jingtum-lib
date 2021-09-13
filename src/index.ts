@@ -476,7 +476,7 @@ export class Transaction extends Wallet {
     const tx = this.buildTokenIssue(account, publisher, amount, token, flag);
     const copyTx: any = Object.assign({}, tx);
     const rpcNode = this.getNode();
-    const sequence = await Transaction.fetchSequence(rpcNode, publisher);
+    const sequence = await Transaction.fetchSequence(rpcNode, account);
     copyTx.Sequence = sequence;
 
     const sign = this.sign(copyTx, secret);
@@ -495,6 +495,7 @@ export class Transaction extends Wallet {
       Destination: to,
       TokenID: tokenId,
       Fee: fee / 1000000,
+      Flags: 0,
       FundCode: string2hex(utf8.encode(token))
     };
     const ms = [];
