@@ -111,6 +111,16 @@ export class Transaction {
     return fetchTransaction(node, hash);
   }
 
+  public static async sendRawTransaction(data: { blob: string; url: string }): Promise<string> {
+    const { url, blob } = data;
+    const res = await submitTransaction(url, blob);
+    const engine_result = res.result.engine_result;
+    if (engine_result !== "tesSUCCESS") {
+      throw new Error(JSON.stringify(res));
+    }
+    return res.result.tx_json.hash;
+  }
+
   static isValidated(tx): boolean {
     const result = tx?.result;
     return result?.status === "success" && result?.validated;
