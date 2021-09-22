@@ -21,6 +21,8 @@ import {
 } from "./tx";
 import { swtcSequence } from "./sequence";
 
+export type ISupportChain = "jingtum" | "bizain" | "seaaps";
+
 export interface ChainOption {
   guomi: boolean;
   ACCOUNT_ALPHABET?: string;
@@ -37,7 +39,7 @@ export class Wallet {
   protected readonly wallet;
   protected readonly serializer;
 
-  constructor(chain: string | ChainOption) {
+  constructor(chain: ISupportChain | ChainOption) {
     this.wallet = WalletFactory(chain);
     this.serializer = SerializerFactory(this.wallet);
   }
@@ -124,7 +126,7 @@ export class Transaction {
   private wallet: Wallet;
   private retry: number;
 
-  constructor(chain: string | ChainOption, nodes: string[], retry = 0) {
+  constructor(chain: ISupportChain | ChainOption, nodes: string[], retry = 0) {
     this.wallet = new Wallet(chain);
     this.nodes = nodes;
     this.retry = retry;
