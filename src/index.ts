@@ -90,6 +90,33 @@ export class Wallet {
       blob: sendBlob.to_hex()
     };
   }
+
+  public multiSign(tx: any, secret: string): any {
+    const wallet = new this.wallet(secret);
+    const copyTx = Object.assign({}, tx);
+    // 多签的时候SigningPubKey必须有但是保持为空
+    copyTx.SigningPubKey = "";
+    // Fee按照笔数计算，考虑最大8笔，最高是0.01
+    copyTx.Fee = 0.08;
+
+    let blob = this.serializer.from_json(copyTx);
+    blob = this.serializer.adr_json(blob, wallet.address());
+
+    const prefix = HASHPREFIX.transactionMultiSig;
+    let hash: string;
+    if (wallet.isEd25519()) {
+      hash = `${prefix.toString(16).toUpperCase()}${blob.to_hex()}`;
+    } else {
+      hash = blob.hash(prefix);
+    }
+    return {
+      Signer: {
+        Account: wallet.address(),
+        SigningPubKey: wallet.getPublicKey(),
+        TxnSignature: wallet.signTx(hash)
+      }
+    };
+  }
 }
 
 export class Transaction {
