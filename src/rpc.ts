@@ -56,4 +56,21 @@ const fetchTransaction = async (node: string, hash: string): Promise<any> => {
   return res;
 };
 
-export { fetchSequence, fetchTransaction, submitTransaction };
+const submitMultisignedTransaction = async (node: string, params: string): Promise<any> => {
+  const data: any = {
+    data: {
+      method: "submit_multisigned",
+      params: [
+        {
+          tx_json: params
+        }
+      ]
+    },
+    method: "post",
+    url: node
+  };
+  const res = await fetch(data);
+  return res;
+};
+
+export { fetchSequence, fetchTransaction, submitTransaction, submitMultisignedTransaction };
