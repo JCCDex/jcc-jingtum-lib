@@ -2,7 +2,7 @@ import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
 import { HASHPREFIX } from "@swtc/common";
 import { fetchSequence, fetchTransaction, submitTransaction } from "./rpc";
-import { ExchangeType, IMemo, ISignerEntry, TokenFlag, TokenInfo } from "./type";
+import { ExchangeType, IMemo, ISignerEntry, IToken, TokenFlag, TokenInfo } from "./type";
 import {
   serialize721Delete,
   serialize721Payment,
@@ -143,8 +143,7 @@ export class Transaction {
   public static async sendRawTransaction(data: { blob: string; url: string }): Promise<string> {
     const { url, blob } = data;
     const res = await submitTransaction(url, blob);
-    const engine_result = res.result.engine_result;
-    if (engine_result !== "tesSUCCESS") {
+    if (!Transaction.isSuccess(res)) {
       throw new Error(JSON.stringify(res));
     }
     return res.result.tx_json.hash;
@@ -183,12 +182,11 @@ export class Transaction {
     address: string,
     secret: string,
     amount: string,
-    base: string,
-    counter: string,
+    base: string | IToken,
+    counter: string | IToken,
     sum: string,
     type: ExchangeType,
-    platform: string,
-    issuer?: string
+    platform: string
   ): Promise<string> {
     try {
       const tx = serializeCreateOrder(
@@ -201,7 +199,7 @@ export class Transaction {
         platform,
         this.wallet.getCurrency(),
         this.wallet.getFee(),
-        issuer || this.wallet.getIssuer()
+        this.wallet.getIssuer()
       );
       const hash = await this.submit(secret, tx);
       swtcSequence.rise(address);
@@ -410,7 +408,7 @@ export class Transaction {
     amount: string,
     memo: string | IMemo[],
     token: string,
-    issuer
+    issuer: string
   ): Promise<string> {
     try {
       const tx = serializeIssueSet(address, amount, token, memo, issuer, this.wallet.getFee());
