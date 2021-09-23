@@ -187,26 +187,20 @@ export class Transaction {
     type: ExchangeType,
     platform: string
   ): Promise<string> {
-    try {
-      const tx = serializeCreateOrder(
-        address,
-        amount,
-        base,
-        counter,
-        sum,
-        type,
-        platform,
-        this.wallet.getCurrency(),
-        this.wallet.getFee(),
-        this.wallet.getIssuer()
-      );
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeCreateOrder(
+      address,
+      amount,
+      base,
+      counter,
+      sum,
+      type,
+      platform,
+      this.wallet.getCurrency(),
+      this.wallet.getFee(),
+      this.wallet.getIssuer()
+    );
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -219,15 +213,9 @@ export class Transaction {
    * @memberof Transaction
    */
   public async cancelOrder(address: string, secret: string, offerSequence: number): Promise<string> {
-    try {
-      const tx = serializeCancelOrder(address, offerSequence, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeCancelOrder(address, offerSequence, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -252,24 +240,18 @@ export class Transaction {
     token: string,
     issuer?: string
   ): Promise<string> {
-    try {
-      const tx = serializePayment(
-        address,
-        amount,
-        to,
-        token,
-        memo,
-        this.wallet.getFee(),
-        this.wallet.getCurrency(),
-        issuer || this.wallet.getIssuer()
-      );
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializePayment(
+      address,
+      amount,
+      to,
+      token,
+      memo,
+      this.wallet.getFee(),
+      this.wallet.getCurrency(),
+      issuer || this.wallet.getIssuer()
+    );
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -294,23 +276,17 @@ export class Transaction {
     token: string,
     issuer?: string
   ): Promise<string> {
-    try {
-      const tx = serializeBrokerage(
-        platformAccount,
-        feeAccount,
-        rateNum,
-        rateDen,
-        token,
-        issuer || this.wallet.getIssuer(),
-        this.wallet.getFee()
-      );
-      const hash = await this.submit(platformSecret, tx);
-      swtcSequence.rise(platformAccount);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(platformAccount);
-      throw error;
-    }
+    const tx = serializeBrokerage(
+      platformAccount,
+      feeAccount,
+      rateNum,
+      rateDen,
+      token,
+      issuer || this.wallet.getIssuer(),
+      this.wallet.getFee()
+    );
+    const hash = await this.submit(platformSecret, tx);
+    return hash;
   }
 
   /**
@@ -324,15 +300,9 @@ export class Transaction {
    * @memberof Transaction
    */
   public async addBlackList(address: string, secret: string, account: string, memo: string | IMemo[]): Promise<string> {
-    try {
-      const tx = serializeSetBlackList(address, account, memo, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeSetBlackList(address, account, memo, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -351,15 +321,9 @@ export class Transaction {
     account: string,
     memo: string | IMemo[]
   ): Promise<string> {
-    try {
-      const tx = serializeRemoveBlackList(address, account, memo, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeRemoveBlackList(address, account, memo, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -378,15 +342,9 @@ export class Transaction {
     account: string,
     memo: string | IMemo[]
   ): Promise<string> {
-    try {
-      const tx = serializeManageIssuer(address, account, memo, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeManageIssuer(address, account, memo, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -409,15 +367,9 @@ export class Transaction {
     token: string,
     issuer: string
   ): Promise<string> {
-    try {
-      const tx = serializeIssueSet(address, amount, token, memo, issuer, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeIssueSet(address, amount, token, memo, issuer, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -436,27 +388,15 @@ export class Transaction {
     signerQuorum: number,
     signerEntries?: ISignerEntry[]
   ): Promise<string> {
-    try {
-      const tx = serializeSignerList(address, signerQuorum, this.wallet.getFee(), signerEntries);
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeSignerList(address, signerQuorum, this.wallet.getFee(), signerEntries);
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   public async setAccount(address: string, secret: string, disable: boolean): Promise<string> {
-    try {
-      const tx = serializeSetAccount(address, disable, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(address);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(address);
-      throw error;
-    }
+    const tx = serializeSetAccount(address, disable, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -477,15 +417,9 @@ export class Transaction {
     tokenId: string,
     memo?: string | IMemo[]
   ) {
-    try {
-      const tx = serialize721Payment(account, receiver, tokenId, this.wallet.getFee(), memo);
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(account);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(account);
-      throw error;
-    }
+    const tx = serialize721Payment(account, receiver, tokenId, this.wallet.getFee(), memo);
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -498,15 +432,9 @@ export class Transaction {
    * @memberof Transaction
    */
   public async delete721(account: string, secret: string, tokenId: string) {
-    try {
-      const tx = serialize721Delete(account, tokenId, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(account);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(account);
-      throw error;
-    }
+    const tx = serialize721Delete(account, tokenId, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -529,15 +457,9 @@ export class Transaction {
     token: string,
     flag: TokenFlag
   ) {
-    try {
-      const tx = serializeTokenIssue(account, publisher, amount, token, flag, this.wallet.getFee());
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(account);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(account);
-      throw error;
-    }
+    const tx = serializeTokenIssue(account, publisher, amount, token, flag, this.wallet.getFee());
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   /**
@@ -560,42 +482,42 @@ export class Transaction {
     tokenId: string,
     tokenInfos?: TokenInfo[]
   ) {
-    try {
-      const tx = serialize721Publish(account, receiver, token, tokenId, this.wallet.getFee(), tokenInfos);
-      const hash = await this.submit(secret, tx);
-      swtcSequence.rise(account);
-      return hash;
-    } catch (error) {
-      swtcSequence.reset(account);
-      throw error;
-    }
+    const tx = serialize721Publish(account, receiver, token, tokenId, this.wallet.getFee(), tokenInfos);
+    const hash = await this.submit(secret, tx);
+    return hash;
   }
 
   protected async submit(secret: string, tx: any): Promise<string> {
     let hash;
     let retry = this.retry;
     const node = this.getNode();
-    while (!hash) {
-      // copy transaction because signature action will change origin transaction
-      const copyTx = Object.assign({}, tx);
-      const sequence = await swtcSequence.get(Transaction.fetchSequence, tx.Account, node);
-      copyTx.Sequence = sequence;
-      const signed = this.wallet.sign(copyTx, secret);
-      const res = await submitTransaction(node, signed.blob);
-      const engine_result = res?.result?.engine_result;
-      if (engine_result === "tesSUCCESS") {
-        hash = res.result.tx_json.hash;
-      } else {
-        if (engine_result !== "terPRE_SEQ" && engine_result !== "tefPAST_SEQ") {
-          throw new Error(JSON.stringify(res));
-        }
-        retry = retry - 1;
-        swtcSequence.reset(tx.Account);
-        if (retry < 0) {
-          throw new Error(JSON.stringify(res));
+    try {
+      while (!hash) {
+        // copy transaction because signature action will change origin transaction
+        const copyTx = Object.assign({}, tx);
+        const sequence = await swtcSequence.get(Transaction.fetchSequence, tx.Account, node);
+        copyTx.Sequence = sequence;
+        const signed = this.wallet.sign(copyTx, secret);
+        const res = await submitTransaction(node, signed.blob);
+        const engine_result = res?.result?.engine_result;
+        if (engine_result === "tesSUCCESS") {
+          hash = res.result.tx_json.hash;
+        } else {
+          if (engine_result !== "terPRE_SEQ" && engine_result !== "tefPAST_SEQ") {
+            throw new Error(JSON.stringify(res));
+          }
+          retry = retry - 1;
+          swtcSequence.reset(tx.Account);
+          if (retry < 0) {
+            throw new Error(JSON.stringify(res));
+          }
         }
       }
+      swtcSequence.rise(tx.Account);
+      return hash;
+    } catch (error) {
+      swtcSequence.reset(tx.Account);
+      throw error;
     }
-    return hash;
   }
 }
