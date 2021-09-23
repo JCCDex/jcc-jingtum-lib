@@ -169,12 +169,11 @@ export class Transaction {
    * @param {string} address address of your jingtum wallet
    * @param {string} secret secret of your jingtum wallet
    * @param {string} amount amount of order
-   * @param {string} base token name, if the transaction pair is jjcc-swt, the value of base is "jjcc"
-   * @param {string} counter token name, if the transaction pair is jjcc-swt, the value of counter is "swt"
+   * @param {(string | IToken)} base token name, if the transaction pair is jjcc-swt, the value of base is "jjcc"
+   * @param {(string | IToken)} counter token name, if the transaction pair is jjcc-swt, the value of counter is "swt"
    * @param {string} sum the value is the amount multiplied by price
    * @param {ExchangeType} type the value is "buy" or "sell"
    * @param {string} platform platform address
-   * @param {string} [issuer] issuer address of token
    * @returns {Promise<string>} resolve hash if success
    * @memberof Transaction
    */
