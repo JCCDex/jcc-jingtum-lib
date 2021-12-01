@@ -1,6 +1,7 @@
 import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
-import { HASHPREFIX } from "@swtc/common";
+import { HASHPREFIX, SM3 } from "@swtc/common";
+
 import { fetchSequence, fetchTransaction, submitTransaction } from "./rpc";
 import { ExchangeType, IMemo, ISignerEntry, IToken, TokenFlag, TokenInfo } from "./type";
 import {
@@ -20,6 +21,7 @@ import {
   serializeTokenIssue
 } from "./tx";
 import { swtcSequence } from "./sequence";
+const createHash = require("create-hash");
 
 export type ISupportChain = "jingtum" | "bizain" | "seaaps";
 
@@ -38,15 +40,24 @@ export interface SignResult {
 export class Wallet {
   protected readonly wallet;
   protected readonly serializer;
+  protected readonly sha256: (bytes: string | Uint8Array) => string;
 
   constructor(chain: ISupportChain | ChainOption) {
     this.wallet = WalletFactory(chain);
     this.serializer = SerializerFactory(this.wallet);
+    const opts = chain as ChainOption;
+    this.sha256 = opts?.guomi
+      ? (message) => new SM3().update(message).digest("hex")
+      : (message) => createHash("sha256").update(message).digest("hex");
   }
 
   public getAddress(secret: string): string {
     const wallet = this.wallet.fromSecret(secret);
     return wallet.address;
+  }
+
+  public generateHash256(msg: string | Uint8Array): string {
+    return this.sha256(msg);
   }
 
   public isValidAddress(address: string): boolean {
