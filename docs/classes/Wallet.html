@@ -92,6 +92,9 @@
                       <a href="Wallet.html#serializer" class="tsd-kind-icon">serializer</a>
                     </li>
                     <li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+                      <a href="Wallet.html#sha256" class="tsd-kind-icon">sha256</a>
+                    </li>
+                    <li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected">
                       <a href="Wallet.html#wallet" class="tsd-kind-icon">wallet</a>
                     </li>
                   </ul>
@@ -101,6 +104,9 @@
                   <ul class="tsd-index-list">
                     <li class="tsd-kind-method tsd-parent-kind-class">
                       <a href="Wallet.html#createWallet" class="tsd-kind-icon">create<wbr />Wallet</a>
+                    </li>
+                    <li class="tsd-kind-method tsd-parent-kind-class">
+                      <a href="Wallet.html#generateHash256" class="tsd-kind-icon">generate<wbr />Hash256</a>
                     </li>
                     <li class="tsd-kind-method tsd-parent-kind-class">
                       <a href="Wallet.html#getAddress" class="tsd-kind-icon">get<wbr />Address</a>
@@ -155,8 +161,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L42"
-                          >index.ts:42</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L45"
+                          >index.ts:45</a
                         >
                       </li>
                     </ul>
@@ -197,10 +203,63 @@
                 <ul>
                   <li>
                     Defined in
-                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L40">index.ts:40</a>
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L42">index.ts:42</a>
                   </li>
                 </ul>
               </aside>
+            </section>
+            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+              <a name="sha256" class="tsd-anchor"></a>
+              <h3>
+                <span class="tsd-flag ts-flagProtected">Protected</span>
+                <span class="tsd-flag ts-flagReadonly">Readonly</span> sha256
+              </h3>
+              <div class="tsd-signature tsd-kind-icon">
+                sha256<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>bytes<span
+                  class="tsd-signature-symbol"
+                  >: </span
+                ><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span
+                ><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span
+                ><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span>
+              </div>
+              <aside class="tsd-sources">
+                <ul>
+                  <li>
+                    Defined in
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L43">index.ts:43</a>
+                  </li>
+                </ul>
+              </aside>
+              <div class="tsd-type-declaration">
+                <h4>Type declaration</h4>
+                <ul class="tsd-parameters">
+                  <li class="tsd-parameter-signature">
+                    <ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-class">
+                      <li class="tsd-signature tsd-kind-icon">
+                        <span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span
+                        ><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span
+                        ><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span
+                        ><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>
+                      </li>
+                    </ul>
+                    <ul class="tsd-descriptions">
+                      <li class="tsd-description">
+                        <h4 class="tsd-parameters-title">Parameters</h4>
+                        <ul class="tsd-parameters">
+                          <li>
+                            <h5>
+                              bytes: <span class="tsd-signature-type">string</span
+                              ><span class="tsd-signature-symbol"> | </span
+                              ><span class="tsd-signature-type">Uint8Array</span>
+                            </h5>
+                          </li>
+                        </ul>
+                        <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </section>
             <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
               <a name="wallet" class="tsd-anchor"></a>
@@ -215,7 +274,7 @@
                 <ul>
                   <li>
                     Defined in
-                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L39">index.ts:39</a>
+                    <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L41">index.ts:41</a>
                   </li>
                 </ul>
               </aside>
@@ -239,13 +298,50 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L60"
-                          >index.ts:60</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L71"
+                          >index.ts:71</a
                         >
                       </li>
                     </ul>
                   </aside>
                   <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+                </li>
+              </ul>
+            </section>
+            <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+              <a name="generateHash256" class="tsd-anchor"></a>
+              <h3>generate<wbr />Hash256</h3>
+              <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+                <li class="tsd-signature tsd-kind-icon">
+                  generate<wbr />Hash256<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol"
+                    >: </span
+                  ><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span
+                  ><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span
+                  ><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>
+                </li>
+              </ul>
+              <ul class="tsd-descriptions">
+                <li class="tsd-description">
+                  <aside class="tsd-sources">
+                    <ul>
+                      <li>
+                        Defined in
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L59"
+                          >index.ts:59</a
+                        >
+                      </li>
+                    </ul>
+                  </aside>
+                  <h4 class="tsd-parameters-title">Parameters</h4>
+                  <ul class="tsd-parameters">
+                    <li>
+                      <h5>
+                        msg: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span
+                        ><span class="tsd-signature-type">Uint8Array</span>
+                      </h5>
+                    </li>
+                  </ul>
+                  <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
                 </li>
               </ul>
             </section>
@@ -266,8 +362,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L47"
-                          >index.ts:47</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L54"
+                          >index.ts:54</a
                         >
                       </li>
                     </ul>
@@ -298,8 +394,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L68"
-                          >index.ts:68</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L79"
+                          >index.ts:79</a
                         >
                       </li>
                     </ul>
@@ -323,8 +419,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L64"
-                          >index.ts:64</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L75"
+                          >index.ts:75</a
                         >
                       </li>
                     </ul>
@@ -348,8 +444,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L72"
-                          >index.ts:72</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L83"
+                          >index.ts:83</a
                         >
                       </li>
                     </ul>
@@ -376,8 +472,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L52"
-                          >index.ts:52</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L63"
+                          >index.ts:63</a
                         >
                       </li>
                     </ul>
@@ -410,8 +506,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L56"
-                          >index.ts:56</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L67"
+                          >index.ts:67</a
                         >
                       </li>
                     </ul>
@@ -444,8 +540,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L96"
-                          >index.ts:96</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L107"
+                          >index.ts:107</a
                         >
                       </li>
                     </ul>
@@ -483,8 +579,8 @@
                     <ul>
                       <li>
                         Defined in
-                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/2ffb181/src/index.ts#L76"
-                          >index.ts:76</a
+                        <a href="https://github.com/JCCDex/jcc-jingtum-lib/blob/a08c71f/src/index.ts#L87"
+                          >index.ts:87</a
                         >
                       </li>
                     </ul>
@@ -534,10 +630,16 @@
                     <a href="Wallet.html#serializer" class="tsd-kind-icon">serializer</a>
                   </li>
                   <li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+                    <a href="Wallet.html#sha256" class="tsd-kind-icon">sha256</a>
+                  </li>
+                  <li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected">
                     <a href="Wallet.html#wallet" class="tsd-kind-icon">wallet</a>
                   </li>
                   <li class="tsd-kind-method tsd-parent-kind-class">
                     <a href="Wallet.html#createWallet" class="tsd-kind-icon">create<wbr />Wallet</a>
+                  </li>
+                  <li class="tsd-kind-method tsd-parent-kind-class">
+                    <a href="Wallet.html#generateHash256" class="tsd-kind-icon">generate<wbr />Hash256</a>
                   </li>
                   <li class="tsd-kind-method tsd-parent-kind-class">
                     <a href="Wallet.html#getAddress" class="tsd-kind-icon">get<wbr />Address</a>
