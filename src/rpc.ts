@@ -73,4 +73,45 @@ const submitMultisignedTransaction = async (node: string, params: string): Promi
   return res;
 };
 
-export { fetchSequence, fetchTransaction, submitTransaction, submitMultisignedTransaction };
+const requestAccountToken = async (node: string, account: string): Promise<any> => {
+  const data: any = {
+    data: {
+      method: "account_erc",
+      params: [
+        {
+          account
+        }
+      ]
+    },
+    method: "post",
+    url: node
+  };
+  const res = await fetch(data);
+  return res;
+};
+
+const requestTokenInfo = async (node: string, id: string): Promise<any> => {
+  const data: any = {
+    data: {
+      method: "erc_info",
+      params: [
+        {
+          tokenid: id
+        }
+      ]
+    },
+    method: "post",
+    url: node
+  };
+  const res = await fetch(data);
+  return res;
+};
+
+export {
+  fetchSequence,
+  fetchTransaction,
+  submitTransaction,
+  submitMultisignedTransaction,
+  requestAccountToken,
+  requestTokenInfo
+};

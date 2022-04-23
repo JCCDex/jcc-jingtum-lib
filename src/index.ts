@@ -2,7 +2,7 @@ import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
 import { HASHPREFIX, SM3 } from "@swtc/common";
 
-import { fetchSequence, fetchTransaction, submitTransaction } from "./rpc";
+import { fetchSequence, fetchTransaction, requestAccountToken, requestTokenInfo, submitTransaction } from "./rpc";
 import { ExchangeType, IMemo, ISignerEntry, IToken, TokenFlag, TokenInfo } from "./type";
 import {
   serialize721Delete,
@@ -148,7 +148,33 @@ export class Transaction {
   }
 
   static async fetchTransaction(node: string, hash: string): Promise<any> {
-    return fetchTransaction(node, hash);
+    return await fetchTransaction(node, hash);
+  }
+
+  /**
+   * 查看账户拥有的erc721 token
+   *
+   * @static
+   * @param {string} node
+   * @param {string} account
+   * @returns {Promise<any>}
+   * @memberof Transaction
+   */
+  static async requestAccountToken(node: string, account: string): Promise<any> {
+    return await requestAccountToken(node, account);
+  }
+
+  /**
+   * 获取erc721 token详情
+   *
+   * @static
+   * @param {string} node
+   * @param {string} tokenId erc721 id
+   * @returns {Promise<any>}
+   * @memberof Transaction
+   */
+  static async requestTokenInfo(node: string, tokenId: string): Promise<any> {
+    return await requestTokenInfo(node, tokenId);
   }
 
   public static async sendRawTransaction(data: { blob: string; url: string }): Promise<string> {
@@ -450,6 +476,8 @@ export class Transaction {
 
   /**
    * 设置发行权限
+   *
+   * buildTokenIssueTx
    *
    * @param {string} account
    * @param {string} secret
