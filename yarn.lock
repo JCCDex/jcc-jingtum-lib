@@ -1191,10 +1191,24 @@
     base-x "^3.0.7"
     create-hash "^1.2.0"
 
+"@swtc/address-codec@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@swtc/address-codec/-/address-codec-1.1.0.tgz#2206842625ecf0707e42fb5243644dabbba3f9cb"
+  integrity sha512-XUR8fAPJHeKd9t5Hr8HhwunjVQZvZZEEaKAPglhJO30oZ0JmZQDv6oHazryKA4yc7BagrtFFiW0FPyIsmKbjKQ==
+  dependencies:
+    "@swtc/common" "^1.1.0"
+    base-x "^3.0.7"
+    create-hash "^1.2.0"
+
 "@swtc/common@^1.0.24":
   version "1.0.24"
   resolved "https://registry.yarnpkg.com/@swtc/common/-/common-1.0.24.tgz#47bdc96d675ca3ecdb4c6c454a2492bee58113d9"
   integrity sha512-i4DM3Wu0HU1YY3kuL8adjebHaWldqgVxCm87bbwPKLObjbn2ZeAJkOylSeFgoJ2QXtLg4tvq488aQ8X6X/ci6Q==
+
+"@swtc/common@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@swtc/common/-/common-1.1.0.tgz#f3d0ca381927a3dbb710479667067409ade049f1"
+  integrity sha512-4KNXmCeexynT5rNGDTELQo+VD/sf3fGUnVhFmFBPSxYmlWoEoQve3c9dPsKa5j+j3GMkFL2WBGkxogI73FVfxg==
 
 "@swtc/keypairs@^1.0.18":
   version "1.0.18"
@@ -1209,15 +1223,28 @@
     elliptic "^6.4.0"
     hash.js "^1.0.3"
 
-"@swtc/serializer@^1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@swtc/serializer/-/serializer-1.0.17.tgz#4a196bb22d357b7ea669823e0010dbc9bbdc8152"
-  integrity sha512-ated1wlHAtPvOOCeWu3HCufgJTOX4w+NhOhTPBRtuJC8GH29v6ZpwRZm49zHmI5r3LS7EKBHLja6+rRomdWTPQ==
+"@swtc/keypairs@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@swtc/keypairs/-/keypairs-1.1.0.tgz#4f19907861bfab07671435f7652dfcdabc721f32"
+  integrity sha512-7C3K6rmLYE+/S6zCWZN4UuuwlyAyJMaKV+2xHWmku0Iph2/p2TMwYbort0nx6sgZmOwg0ccHsbnmV0dhTzpB8g==
   dependencies:
-    "@swtc/address-codec" "^1.0.17"
-    "@swtc/common" "^1.0.24"
-    "@swtc/keypairs" "^1.0.18"
-    "@swtc/wallet" "^1.0.20"
+    "@swtc/address-codec" "^1.1.0"
+    "@swtc/common" "^1.1.0"
+    "@swtc/sm.js" "^0.1.8"
+    bn.js "^4.4.0"
+    brorand "^1.1.0"
+    elliptic "^6.4.0"
+    hash.js "^1.0.3"
+
+"@swtc/serializer@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@swtc/serializer/-/serializer-1.1.0.tgz#bd41c672da21035086a0e5052760622109146621"
+  integrity sha512-Oc8mze5GviUnKac2J5BcoDwVbQzmi4OJSPk9KM+Tg4lUb5YpK45hJxxHYK3cBM6ZRMQmygQzK7RyPAzTexiKsg==
+  dependencies:
+    "@swtc/address-codec" "^1.1.0"
+    "@swtc/common" "^1.1.0"
+    "@swtc/keypairs" "^1.1.0"
+    "@swtc/wallet" "^1.1.0"
     bignumber.js "^9.0.0"
     bn-plus.js "^1.0.0"
     extend "^3.0.2"
@@ -1243,6 +1270,15 @@
     "@swtc/address-codec" "^1.0.17"
     "@swtc/common" "^1.0.24"
     "@swtc/keypairs" "^1.0.18"
+
+"@swtc/wallet@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@swtc/wallet/-/wallet-1.1.0.tgz#3d0cb708b8601af18123e0ff9851d35719dca7a4"
+  integrity sha512-r83Ko782kpWEdr08VIRPU/3oeD9hCvo505eP6fYu6/QQy857jJZAQTB/x0I0rgNS7WK3siX7gzlF26g45fke0Q==
+  dependencies:
+    "@swtc/address-codec" "^1.1.0"
+    "@swtc/common" "^1.1.0"
+    "@swtc/keypairs" "^1.1.0"
 
 "@tootallnate/once@1":
   version "1.1.2"

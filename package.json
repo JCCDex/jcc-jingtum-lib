@@ -51,7 +51,7 @@
     "lib"
   ],
   "dependencies": {
-    "@swtc/serializer": "^1.0.17",
+    "@swtc/serializer": "^1.1.0",
     "@swtc/wallet": "^1.0.20",
     "axios": "^0.21.1",
     "utf8": "^3.0.0"
