@@ -73,6 +73,23 @@ const submitMultisignedTransaction = async (node: string, params: string): Promi
   return res;
 };
 
+const requestAccountTx = async (node: string, account: string): Promise<any> => {
+  const data: any = {
+    data: {
+      method: "account_tx",
+      params: [
+        {
+          account
+        }
+      ]
+    },
+    method: "post",
+    url: node
+  };
+  const res = await fetch(data);
+  return res;
+};
+
 const requestAccountToken = async (node: string, account: string): Promise<any> => {
   const data: any = {
     data: {
@@ -113,5 +130,6 @@ export {
   submitTransaction,
   submitMultisignedTransaction,
   requestAccountToken,
+  requestAccountTx,
   requestTokenInfo
 };

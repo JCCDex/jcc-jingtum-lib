@@ -2,7 +2,14 @@ import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
 import { HASHPREFIX, SM3 } from "@swtc/common";
 
-import { fetchSequence, fetchTransaction, requestAccountToken, requestTokenInfo, submitTransaction } from "./rpc";
+import {
+  fetchSequence,
+  fetchTransaction,
+  requestAccountToken,
+  requestAccountTx,
+  requestTokenInfo,
+  submitTransaction
+} from "./rpc";
 import { ExchangeType, IMemo, ISignerEntry, IToken, TokenFlag, TokenInfo } from "./type";
 import {
   serialize721Delete,
@@ -149,6 +156,19 @@ export class Transaction {
 
   static async fetchTransaction(node: string, hash: string): Promise<any> {
     return await fetchTransaction(node, hash);
+  }
+
+  /**
+   * 查看账户历史交易
+   *
+   * @static
+   * @param {string} node
+   * @param {string} account
+   * @returns {Promise<any>}
+   * @memberof Transaction
+   */
+  static async requestAccountTx(node: string, account: string): Promise<any> {
+    return await requestAccountTx(node, account);
   }
 
   /**
