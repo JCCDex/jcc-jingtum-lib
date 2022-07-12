@@ -220,6 +220,10 @@ export class Transaction {
     return tx?.result?.engine_result === "tesSUCCESS";
   }
 
+  public setNodes(nodes: string[]) {
+    this.nodes = nodes;
+  }
+
   /**
    * create order
    *
