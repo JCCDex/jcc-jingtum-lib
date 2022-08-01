@@ -1,7 +1,6 @@
 import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
-import { HASHPREFIX, SM3 } from "@swtc/common";
-
+import { HASHPREFIX, SM3, convertStringToHex } from "@swtc/common";
 import {
   fetchSequence,
   fetchTransaction,
@@ -29,6 +28,7 @@ import {
 } from "./tx";
 import { swtcSequence } from "./sequence";
 const createHash = require("create-hash");
+const cloneDeep = require("lodash.clonedeep");
 
 export type ISupportChain = "jingtum" | "bizain" | "seaaps";
 
@@ -43,6 +43,28 @@ export interface SignResult {
   hash: string;
   blob: string;
 }
+
+const normalizeMemos = (memos) => {
+  return memos.map((memo) => {
+    const { MemoData, MemoType } = memo.Memo;
+    if (MemoType === "string") {
+      return {
+        Memo: {
+          MemoData: convertStringToHex(MemoData),
+          MemoType: convertStringToHex(MemoType)
+        }
+      };
+    }
+    if (MemoType === "hex") {
+      return {
+        Memo: {
+          MemoData: MemoData.length % 2 > 0 ? `${MemoData}0` : MemoData,
+          MemoType: convertStringToHex(MemoType)
+        }
+      };
+    }
+  });
+};
 
 export class Wallet {
   protected readonly wallet;
@@ -113,7 +135,7 @@ export class Wallet {
 
   public multiSign(tx: any, secret: string): any {
     const wallet = new this.wallet(secret);
-    const copyTx = Object.assign({}, tx);
+    const copyTx = cloneDeep(tx);
     // 多签的时候SigningPubKey必须有但是保持为空
     copyTx.SigningPubKey = "";
     // Fee按照笔数计算，考虑最大8笔，最高是0.01
@@ -129,12 +151,21 @@ export class Wallet {
     } else {
       hash = blob.hash(prefix);
     }
+
+    if (Array.isArray(tx.Memos)) {
+      copyTx.Memos = normalizeMemos(tx.Memos);
+    }
     return {
-      Signer: {
-        Account: wallet.address(),
-        SigningPubKey: wallet.getPublicKey(),
-        TxnSignature: wallet.signTx(hash)
-      }
+      ...copyTx,
+      Signers: [
+        {
+          Signer: {
+            Account: wallet.address(),
+            SigningPubKey: wallet.getPublicKey(),
+            TxnSignature: wallet.signTx(hash)
+          }
+        }
+      ]
     };
   }
 }
