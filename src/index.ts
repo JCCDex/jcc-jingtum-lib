@@ -1,6 +1,7 @@
 import { Factory as WalletFactory } from "@swtc/wallet";
 import { Factory as SerializerFactory } from "@swtc/serializer";
 import { HASHPREFIX, SM3, convertStringToHex } from "@swtc/common";
+import BigNumber from "bignumber.js";
 import {
   fetchSequence,
   fetchTransaction,
@@ -155,8 +156,21 @@ export class Wallet {
     if (Array.isArray(tx.Memos)) {
       copyTx.Memos = normalizeMemos(tx.Memos);
     }
+
+    const amount = new BigNumber(copyTx.Amount);
+
+    // if the token is native, need revert value
+    // it's shit.
+    if (!amount.isNaN()) {
+      copyTx.Amount = amount.multipliedBy(1e6).toString();
+    }
+
     return {
       ...copyTx,
+      // revert fee value
+      ...{
+        Fee: new BigNumber(copyTx.Fee).multipliedBy(1e6).toString()
+      },
       Signers: [
         {
           Signer: {
