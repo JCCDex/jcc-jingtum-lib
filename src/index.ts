@@ -129,7 +129,7 @@ export class Wallet {
     copyTx.TxnSignature = wallet.signTx(hash);
     const sendBlob = this.serializer.from_json(copyTx);
     return {
-      hash,
+      hash: sendBlob.hash(HASHPREFIX.transactionID),
       blob: sendBlob.to_hex()
     };
   }
