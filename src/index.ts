@@ -165,22 +165,25 @@ export class Wallet {
       copyTx.Amount = amount.multipliedBy(1e6).toString();
     }
 
-    return {
-      ...copyTx,
-      // revert fee value
-      ...{
+    return Object.assign(
+      {},
+      copyTx,
+      {
+        // revert fee value
         Fee: new BigNumber(copyTx.Fee).multipliedBy(1e6).toString()
       },
-      Signers: [
-        {
-          Signer: {
-            Account: wallet.address(),
-            SigningPubKey: wallet.getPublicKey(),
-            TxnSignature: wallet.signTx(hash)
+      {
+        Signers: [
+          {
+            Signer: {
+              Account: wallet.address(),
+              SigningPubKey: wallet.getPublicKey(),
+              TxnSignature: wallet.signTx(hash)
+            }
           }
-        }
-      ]
-    };
+        ]
+      }
+    );
   }
 }
 
