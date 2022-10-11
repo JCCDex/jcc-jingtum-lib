@@ -475,3 +475,37 @@ export const serialize721Delete = (address: string, tokenId: string, fee: number
   };
   return tx;
 };
+
+/**
+ * 设置资产接收上限
+ *
+ * @param {string} address
+ * @param {(IAmount | string)} limit
+ * @param {(string | IMemo[])} memo
+ * @param {number} fee
+ * @returns
+ */
+export const serializeTrustSet = (address: string, limit: IAmount | string, memo: string | IMemo[], fee: number) => {
+  let memos;
+  if (typeof memo === "string") {
+    memos = [
+      {
+        Memo: {
+          MemoData: memo,
+          MemoType: "string"
+        }
+      }
+    ];
+  } else {
+    memos = memo;
+  }
+  const tx = {
+    Flags: 0,
+    Fee: fee / 1000000,
+    TransactionType: "TrustSet",
+    Account: address,
+    LimitAmount: limit,
+    Memos: memos
+  };
+  return tx;
+};

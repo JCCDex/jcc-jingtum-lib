@@ -33,6 +33,8 @@ const cloneDeep = require("lodash.clonedeep");
 
 export type ISupportChain = "jingtum" | "bizain" | "seaaps";
 
+export * from "./tx";
+
 export interface ChainOption {
   guomi: boolean;
   ACCOUNT_ALPHABET?: string;
