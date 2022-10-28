@@ -159,33 +159,28 @@ export class Wallet {
       copyTx.Memos = normalizeMemos(tx.Memos);
     }
 
-    const amount = new BigNumber(copyTx.Amount);
+    const keys = ["Amount", "Fee", "LimitAmount", "TakerGets", "TakerPays"];
 
-    // if the token is native, need revert value
-    // it's shit.
-    if (!amount.isNaN()) {
-      copyTx.Amount = amount.multipliedBy(1e6).toString();
+    for (const key of keys) {
+      const value = new BigNumber(copyTx[key]);
+      // if the value is native, need revert value
+      // it's shit.
+      if (!value.isNaN()) {
+        copyTx[key] = value.multipliedBy(1e6).toString();
+      }
     }
 
-    return Object.assign(
-      {},
-      copyTx,
-      {
-        // revert fee value
-        Fee: new BigNumber(copyTx.Fee).multipliedBy(1e6).toString()
-      },
-      {
-        Signers: [
-          {
-            Signer: {
-              Account: wallet.address(),
-              SigningPubKey: wallet.getPublicKey(),
-              TxnSignature: wallet.signTx(hash)
-            }
+    return Object.assign({}, copyTx, {
+      Signers: [
+        {
+          Signer: {
+            Account: wallet.address(),
+            SigningPubKey: wallet.getPublicKey(),
+            TxnSignature: wallet.signTx(hash)
           }
-        ]
-      }
-    );
+        }
+      ]
+    });
   }
 }
 
