@@ -70,7 +70,7 @@ const normalizeMemos = (memos) => {
 };
 
 export class Wallet {
-  protected readonly wallet;
+  public readonly wallet;
   protected readonly serializer;
   protected readonly sha256: (bytes: string | Uint8Array) => string;
 
@@ -186,7 +186,7 @@ export class Wallet {
 
 export class Transaction {
   private nodes: string[];
-  private wallet: Wallet;
+  public readonly wallet: Wallet;
   private retry: number;
 
   constructor(chain: ISupportChain | ChainOption, nodes: string[], retry = 0) {
@@ -595,7 +595,7 @@ export class Transaction {
     return hash;
   }
 
-  protected async submit(secret: string, tx: any): Promise<string> {
+  public async submit(secret: string, tx: any): Promise<string> {
     let hash;
     let retry = this.retry;
     const node = this.getNode();
