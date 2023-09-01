@@ -1,7 +1,9 @@
 import axios from "axios";
+import fetchAdapter from "@haverstack/axios-fetch-adapter";
 
 const service = axios.create({
-  timeout: 30000
+  timeout: 30000,
+  adapter: fetchAdapter
 });
 service.interceptors.response.use(
   (response) => {
