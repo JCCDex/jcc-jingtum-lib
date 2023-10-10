@@ -16,8 +16,8 @@ let tx = new Transaction("jingtum", ["https://xxx.xxx.xxx.xxx"], 0);
 
 // set token issuer
 const hash1 = await tx.setTokenIssue(
-  adminAddress,
-  adminSecret,
+  issuerAdminAddress,
+  issuerAdminSecret,
   publisherAddress,
   amount,
   nftTokenName,
