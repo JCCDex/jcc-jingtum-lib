@@ -1,3 +1,10 @@
+import { IWallet } from "@swtc/wallet";
+
+export interface SignResult {
+  hash: string;
+  blob: string;
+}
+
 export interface ITakerGets {
   currency: string;
   issuer: string;
@@ -149,4 +156,30 @@ export enum TokenFlag {
 export interface TokenInfo {
   type: string;
   data: string;
+}
+
+export interface ChainOption {
+  guomi: boolean;
+  ACCOUNT_ALPHABET?: string;
+  currency?: string;
+  fee?: number;
+}
+
+export abstract class AbstractWallet {
+  public abstract getAddress(secret: string): string;
+  public abstract generateHash256(msg: string | Uint8Array): string;
+  public abstract isValidAddress(address: string): boolean;
+  public abstract isValidSecret(secret: string): boolean;
+  public abstract createWallet(): IWallet;
+  public abstract getFee(): number;
+  public abstract getCurrency(): string;
+  public abstract getIssuer(): string;
+  public abstract sign(tx: unknown, secret: string): SignResult;
+}
+
+export interface ITransactionOption {
+  wallet: AbstractWallet;
+  nodes: string[];
+  retry?: number;
+  fetch?;
 }

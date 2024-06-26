@@ -411,7 +411,7 @@ export const serialize721Publish = (
   fee: number,
   infos?: TokenInfo[]
 ) => {
-  const tx: any = {
+  const tx: Record<string, unknown> = {
     TransactionType: "TransferToken",
     Account: address,
     Destination: to,
