@@ -175,6 +175,7 @@ export abstract class AbstractWallet {
   public abstract getCurrency(): string;
   public abstract getIssuer(): string;
   public abstract sign(tx: unknown, secret: string): SignResult;
+  public abstract multiSign(tx: unknown, secret: string): unknown;
 }
 
 export interface ITransactionOption {

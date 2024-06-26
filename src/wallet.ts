@@ -76,7 +76,7 @@ export class Wallet extends AbstractWallet {
     return this.wallet.getIssuer();
   }
 
-  public sign(tx: Record<string, unknown>, secret: string): SignResult {
+  public sign(tx, secret: string): SignResult {
     const wallet = new this.wallet(secret);
     const copyTx = Object.assign({}, tx);
     copyTx.SigningPubKey = wallet.getPublicKey();
@@ -96,7 +96,7 @@ export class Wallet extends AbstractWallet {
     };
   }
 
-  public multiSign(tx: Record<string, unknown>, secret: string): Record<string, unknown> {
+  public multiSign(tx, secret: string) {
     const wallet = new this.wallet(secret);
     const copyTx = cloneDeep(tx);
     // 多签的时候SigningPubKey必须有但是保持为空
