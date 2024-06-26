@@ -6,7 +6,7 @@ interface ICustomAxiosInterceptorsOptions {
   customResponse?: (response) => unknown;
 }
 
-export const customAxiosInterceptors = (options?: ICustomAxiosInterceptorsOptions) => {
+export const AxiosInterceptorsFactory = (options?: ICustomAxiosInterceptorsOptions) => {
   const { customRequest, customResponse, timeout } = options || {};
 
   const service = axios.create({
@@ -41,4 +41,4 @@ export const customAxiosInterceptors = (options?: ICustomAxiosInterceptorsOption
   return service;
 };
 
-export const defaultFetch = customAxiosInterceptors();
+export const defaultFetch = AxiosInterceptorsFactory();
