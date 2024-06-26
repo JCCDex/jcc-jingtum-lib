@@ -528,7 +528,7 @@ export class Transaction {
       while (!hash) {
         // copy transaction because signature action will change origin transaction
         const copyTx = Object.assign({}, tx);
-        const sequence = await swtcSequence.get(this.fetchSequence.bind(this), tx.Account, node);
+        const sequence = await swtcSequence.get(this.fetchSequence.bind(this), tx.Account);
         copyTx.Sequence = sequence;
         const signed = this.wallet.sign(copyTx, secret);
         const res = await this.submitTransaction(signed.blob, node);

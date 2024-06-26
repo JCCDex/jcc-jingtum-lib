@@ -11,10 +11,10 @@ export const swtcSequence = (() => {
    * @param {*} args
    * @returns {Promise<number>}
    */
-  const get = async (callback: (...args) => Promise<number>, address, node): Promise<number> => {
+  const get = async (callback: (...args) => Promise<number>, address): Promise<number> => {
     let sequence = cache.get(address);
     if (sequence === undefined) {
-      sequence = await callback.apply(null, [node, address]);
+      sequence = await callback.apply(null, [address]);
       cache.set(address, sequence);
     }
     return sequence;
