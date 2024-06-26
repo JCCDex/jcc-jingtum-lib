@@ -51,10 +51,9 @@
     "lib"
   ],
   "dependencies": {
-    "@haverstack/axios-fetch-adapter": "^0.8.0",
     "@swtc/serializer": "^1.1.0",
     "@swtc/wallet": "^1.0.20",
-    "axios": "^0.27.2",
+    "axios": "^1.7.2",
     "lodash.clonedeep": "^4.5.0",
     "utf8": "^3.0.0"
   }
