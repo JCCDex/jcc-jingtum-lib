@@ -30,7 +30,7 @@ import { defaultFetch } from "./fetch";
 export class Transaction {
   private nodes: string[];
   public readonly wallet: AbstractWallet;
-  private retry: number;
+  public retry: number;
   private fetch;
 
   constructor(optitons: ITransactionOption) {
@@ -503,7 +503,7 @@ export class Transaction {
     return hash;
   }
 
-  public submitTransaction = async (blob: string, node?: string) => {
+  public async submitTransaction(blob: string, node?: string) {
     const data = {
       data: {
         method: "submit",
@@ -518,7 +518,7 @@ export class Transaction {
     };
     const res = await this.fetch(data);
     return res;
-  };
+  }
 
   public async submit(secret: string, tx): Promise<string> {
     let hash;
