@@ -80,7 +80,7 @@ describe("tx", () => {
   });
 
   it("serializePayment", () => {
-    const serializeTX = tx.serializePayment(
+    const serializeTX_1 = tx.serializePayment(
       fromAccount.address,
       "7500000",
       toAccount.address,
@@ -97,8 +97,26 @@ describe("tx", () => {
       "SWT",
       jingtum.getIssuer()
     );
+    const serializeTX_2 = tx.serializePayment(
+      fromAccount.address,
+      "7500000",
+      toAccount.address,
+      "TNT",
+      [
+        {
+          Memo: {
+            MemoData: "123",
+            MemoType: "hex"
+          }
+        }
+      ],
+      jingtum.getFee(),
+      "SWT",
+      jingtum.getIssuer()
+    );
 
-    expect(serializeTX).to.eql(tx_data.payment);
+    expect(serializeTX_1).to.eql(tx_data.payment_1);
+    expect(serializeTX_2).to.eql(tx_data.payment_2);
   });
 
   it("serializeBrokerage", () => {
@@ -123,31 +141,56 @@ describe("tx", () => {
         }
       }
     ]);
+    const serializeTX_zero = tx.serializeSignerList(fromAccount.address, 0, jingtum.getFee());
     expect(serializeTX).to.eql(tx_data.signerList);
+    expect(serializeTX_zero).to.eql(tx_data.signerList_zero);
   });
 
   it("serializeSetAccount", () => {
-    const serializeTX = tx.serializeSetAccount(fromAccount.address, true, jingtum.getFee());
-    expect(serializeTX).to.eql(tx_data.setAccount);
+    const serializeTX_true = tx.serializeSetAccount(fromAccount.address, true, jingtum.getFee());
+    const serializeTX_false = tx.serializeSetAccount(fromAccount.address, false, jingtum.getFee());
+    expect(serializeTX_true).to.eql(tx_data.setAccount_true);
+    expect(serializeTX_false).to.eql(tx_data.setAccount_false);
   });
 
   it("serializeSetBlackList", () => {
-    const serializeTX = tx.serializeSetBlackList(toAccount.address, fromAccount.address, "test", jingtum.getFee());
-    expect(serializeTX).to.eql(tx_data.setBlackList);
+    const serializeTX_1 = tx.serializeSetBlackList(toAccount.address, fromAccount.address, "test", jingtum.getFee());
+    const serializeTX_2 = tx.serializeSetBlackList(
+      toAccount.address,
+      fromAccount.address,
+      [{ Memo: { MemoData: "test", MemoType: "string" } }],
+      jingtum.getFee()
+    );
+    expect(serializeTX_1).to.eql(tx_data.setBlackList);
+    expect(serializeTX_2).to.eql(tx_data.setBlackList);
   });
 
   it("serializeRemoveBlackList", () => {
-    const serializeTX = tx.serializeRemoveBlackList(fromAccount.address, toAccount.address, "test", jingtum.getFee());
-    expect(serializeTX).to.eql(tx_data.removeBlackList);
+    const serializeTX_1 = tx.serializeRemoveBlackList(fromAccount.address, toAccount.address, "test", jingtum.getFee());
+    const serializeTX_2 = tx.serializeRemoveBlackList(
+      fromAccount.address,
+      toAccount.address,
+      [{ Memo: { MemoData: "test", MemoType: "string" } }],
+      jingtum.getFee()
+    );
+    expect(serializeTX_1).to.eql(tx_data.removeBlackList);
+    expect(serializeTX_2).to.eql(tx_data.removeBlackList);
   });
 
   it("serializeManageIssuer", () => {
-    const serializeTX = tx.serializeManageIssuer(toAccount.address, fromAccount.address, "test", jingtum.getFee());
-    expect(serializeTX).to.eql(tx_data.manageIssuer);
+    const serializeTX_1 = tx.serializeManageIssuer(toAccount.address, fromAccount.address, "test", jingtum.getFee());
+    const serializeTX_2 = tx.serializeManageIssuer(
+      toAccount.address,
+      fromAccount.address,
+      [{ Memo: { MemoData: "test", MemoType: "string" } }],
+      jingtum.getFee()
+    );
+    expect(serializeTX_1).to.eql(tx_data.manageIssuer);
+    expect(serializeTX_2).to.eql(tx_data.manageIssuer);
   });
 
   it("serializeIssueSet", () => {
-    const serializeTX = tx.serializeIssueSet(
+    const serializeTX_1 = tx.serializeIssueSet(
       fromAccount.address,
       "100000",
       "TNT",
@@ -155,7 +198,16 @@ describe("tx", () => {
       jingtum.getIssuer(),
       jingtum.getFee()
     );
-    expect(serializeTX).to.eql(tx_data.issueSet);
+    const serializeTX_2 = tx.serializeIssueSet(
+      fromAccount.address,
+      "100000",
+      "TNT",
+      [{ Memo: { MemoData: "test", MemoType: "string" } }],
+      jingtum.getIssuer(),
+      jingtum.getFee()
+    );
+    expect(serializeTX_1).to.eql(tx_data.issueSet);
+    expect(serializeTX_2).to.eql(tx_data.issueSet);
   });
 
   it("serializeTokenIssue", () => {
@@ -177,12 +229,30 @@ describe("tx", () => {
         data: "SWT"
       }
     ]);
+    const serializeTX_noInfos = tx.serialize721Publish(
+      fromAccount.address,
+      toAccount.address,
+      "TNT",
+      "123",
+      jingtum.getFee()
+    );
     expect(serializeTX).to.eql(tx_data.publish721);
+    expect(serializeTX_noInfos).to.eql(tx_data.publish721_noInfos);
   });
 
   it("serialize721Payment", () => {
-    const serializeTX = tx.serialize721Payment(fromAccount.address, toAccount.address, "123", jingtum.getFee(), "test");
-    expect(serializeTX).to.eql(tx_data.payment721);
+    const serializeTX_1 = tx.serialize721Payment(
+      fromAccount.address,
+      toAccount.address,
+      "123",
+      jingtum.getFee(),
+      "test"
+    );
+    const serializeTX_2 = tx.serialize721Payment(fromAccount.address, toAccount.address, "123", jingtum.getFee(), [
+      { Memo: { MemoData: "test", MemoType: "string" } }
+    ]);
+    expect(serializeTX_1).to.eql(tx_data.payment721);
+    expect(serializeTX_2).to.eql(tx_data.payment721);
   });
 
   it("serialize721Delete", () => {
@@ -191,7 +261,7 @@ describe("tx", () => {
   });
 
   it("serializeTrustSet", () => {
-    const serializeTX = tx.serializeTrustSet(
+    const serializeTX_1 = tx.serializeTrustSet(
       fromAccount.address,
       {
         currency: "CNY",
@@ -201,6 +271,17 @@ describe("tx", () => {
       "test",
       jingtum.getFee()
     );
-    expect(serializeTX).to.eql(tx_data.trustSet);
+    const serializeTX_2 = tx.serializeTrustSet(
+      fromAccount.address,
+      {
+        currency: "CNY",
+        issuer: jingtum.getIssuer(),
+        value: "10000"
+      },
+      [{ Memo: { MemoData: "test", MemoType: "string" } }],
+      jingtum.getFee()
+    );
+    expect(serializeTX_1).to.eql(tx_data.trustSet);
+    expect(serializeTX_2).to.eql(tx_data.trustSet);
   });
 });

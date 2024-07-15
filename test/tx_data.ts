@@ -62,9 +62,30 @@ export const cancelOrder = {
   TransactionType: "OfferCancel"
 };
 
-export const payment = {
+export const payment_1 = {
   Account: "jsxszyS1eCzF7upPUaLgpuPuGdq15EAfjM",
   Amount: "7500000",
+  Destination: "jpfTTYjTpkA5s4rY5xXRb9ZzRqvHs931DK",
+  Fee: 0.01,
+  Flags: 0,
+  Memos: [
+    {
+      Memo: {
+        MemoData: "123",
+        MemoType: "hex"
+      }
+    }
+  ],
+  TransactionType: "Payment"
+};
+
+export const payment_2 = {
+  Account: "jsxszyS1eCzF7upPUaLgpuPuGdq15EAfjM",
+  Amount: {
+    currency: "TNT",
+    issuer: "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",
+    value: "7500000"
+  },
   Destination: "jpfTTYjTpkA5s4rY5xXRb9ZzRqvHs931DK",
   Fee: 0.01,
   Flags: 0,
@@ -108,9 +129,23 @@ export const signerList = {
   TransactionType: "SignerListSet"
 };
 
-export const setAccount = {
+export const signerList_zero = {
+  Account: "jsxszyS1eCzF7upPUaLgpuPuGdq15EAfjM",
+  SignerQuorum: 0,
+  Fee: 0.01,
+  TransactionType: "SignerListSet"
+};
+
+export const setAccount_true = {
   Account: "jsxszyS1eCzF7upPUaLgpuPuGdq15EAfjM",
   SetFlag: 4,
+  Fee: 0.01,
+  TransactionType: "AccountSet"
+};
+
+export const setAccount_false = {
+  Account: "jsxszyS1eCzF7upPUaLgpuPuGdq15EAfjM",
+  ClearFlag: 4,
   Fee: 0.01,
   TransactionType: "AccountSet"
 };
@@ -209,6 +244,16 @@ export const publish721 = {
       }
     }
   ]
+};
+
+export const publish721_noInfos = {
+  TransactionType: "TransferToken",
+  Account: "jsxszyS1eCzF7upPUaLgpuPuGdq15EAfjM",
+  Destination: "jpfTTYjTpkA5s4rY5xXRb9ZzRqvHs931DK",
+  TokenID: "123",
+  Fee: 0.01,
+  Flags: 0,
+  FundCode: "544e54"
 };
 
 export const payment721 = {
