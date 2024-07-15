@@ -1,38 +1,39 @@
 import { AbstractWallet, serializePayment, Wallet } from "../src";
+import { expect } from "chai";
 
 describe("seaaps", () => {
   it("constructor", () => {
     const seaaps = new Wallet("seaaps");
-    expect(seaaps).toBeInstanceOf(AbstractWallet);
+    expect(seaaps).to.be.instanceOf(AbstractWallet);
   });
 
   it("Create a seaaps wallet and verify that the generated content is correct.", () => {
     const seaaps = new Wallet("seaaps");
     const wallet = seaaps.createWallet();
-    expect(seaaps.isValidSecret(wallet.secret || "")).toEqual(true);
-    expect(seaaps.isValidAddress(wallet.address || "")).toEqual(true);
+    expect(seaaps.isValidSecret(wallet.secret || "")).to.equal(true);
+    expect(seaaps.isValidAddress(wallet.address || "")).to.equal(true);
   });
 
   it("Perform hash digest processing on a data.", () => {
     const seaaps = new Wallet("seaaps");
     const content = "1234567890";
     const contentHashDigest = "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646";
-    expect(seaaps.generateHash256(content)).toEqual(contentHashDigest);
+    expect(seaaps.generateHash256(content)).to.equal(contentHashDigest);
   });
 
   it("Get fee.", () => {
     const seaaps = new Wallet("seaaps");
-    expect(seaaps.getFee()).toEqual(10000);
+    expect(seaaps.getFee()).to.equal(10000);
   });
 
   it("Get currency.", () => {
     const seaaps = new Wallet("seaaps");
-    expect(seaaps.getCurrency()).toEqual("SEAA");
+    expect(seaaps.getCurrency()).to.equal("SEAA");
   });
 
   it("Get issuer.", () => {
     const seaaps = new Wallet("seaaps");
-    expect(seaaps.getIssuer()).toEqual("dHb9CJAWyB4dr91VRWn96DkukG4bwjtyTh");
+    expect(seaaps.getIssuer()).to.equal("dHb9CJAWyB4dr91VRWn96DkukG4bwjtyTh");
   });
 
   it("Get the address of the corresponding secret.", () => {
@@ -41,7 +42,7 @@ describe("seaaps", () => {
       secret: "snUnCn4ZeY7k2EQhvGiihaDmjwrrF",
       address: "dTUXStyLbXPSPmX851B8U6AKrcqomr9dg"
     };
-    expect(seaaps.getAddress(wallet.secret)).toEqual(wallet.address);
+    expect(seaaps.getAddress(wallet.secret)).to.equal(wallet.address);
   });
 
   it("Sign the serialized tx data.", () => {
@@ -65,8 +66,8 @@ describe("seaaps", () => {
       seaaps.getIssuer()
     );
     const signResult = seaaps.sign(paymentTx, fromAccount.secret || "");
-    expect(Object.keys(signResult)).toContain("hash");
-    expect(Object.keys(signResult)).toContain("blob");
+    expect(Object.keys(signResult)).to.contain("hash");
+    expect(Object.keys(signResult)).to.contain("blob");
   });
 
   it("Multi sign the serialized tx data.", () => {
@@ -117,6 +118,6 @@ describe("seaaps", () => {
       ]
     };
     const multiSignResult = seaaps.multiSign(paymentTx, fromAccount.secret);
-    expect(multiSignResult).toEqual(expectResult);
+    expect(multiSignResult).to.eql(expectResult);
   });
 });

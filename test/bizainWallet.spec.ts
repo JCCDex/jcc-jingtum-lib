@@ -1,38 +1,39 @@
 import { AbstractWallet, serializePayment, Wallet } from "../src";
+import { expect } from "chai";
 
 describe("bizain", () => {
   it("constructor", () => {
     const bizain = new Wallet("bizain");
-    expect(bizain).toBeInstanceOf(AbstractWallet);
+    expect(bizain).to.be.an.instanceof(AbstractWallet);
   });
 
   it("Create a bizain wallet and verify that the generated content is correct.", () => {
     const bizain = new Wallet("bizain");
     const wallet = bizain.createWallet();
-    expect(bizain.isValidSecret(wallet.secret || "")).toEqual(true);
-    expect(bizain.isValidAddress(wallet.address || "")).toEqual(true);
+    expect(bizain.isValidSecret(wallet.secret || "")).to.equal(true);
+    expect(bizain.isValidAddress(wallet.address || "")).to.equal(true);
   });
 
   it("Perform hash digest processing on a data.", () => {
     const bizain = new Wallet("bizain");
     const content = "1234567890";
     const contentHashDigest = "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646";
-    expect(bizain.generateHash256(content)).toEqual(contentHashDigest);
+    expect(bizain.generateHash256(content)).to.equal(contentHashDigest);
   });
 
   it("Get fee.", () => {
     const bizain = new Wallet("bizain");
-    expect(bizain.getFee()).toEqual(10);
+    expect(bizain.getFee()).to.equal(10);
   });
 
   it("Get currency.", () => {
     const bizain = new Wallet("bizain");
-    expect(bizain.getCurrency()).toEqual("BWT");
+    expect(bizain.getCurrency()).to.equal("BWT");
   });
 
   it("Get issuer.", () => {
     const bizain = new Wallet("bizain");
-    expect(bizain.getIssuer()).toEqual("bf42S78serP2BeSx7HGtwQR2QASYaHVqyb");
+    expect(bizain.getIssuer()).to.equal("bf42S78serP2BeSx7HGtwQR2QASYaHVqyb");
   });
 
   it("Get the address of the corresponding secret.", () => {
@@ -41,7 +42,7 @@ describe("bizain", () => {
       secret: "sh6uzM8gARyFzeXYRaTYsUsFARp1V",
       address: "bE96jztNp2T96vMYhyQdCowSLsw8UpVmxZ"
     };
-    expect(bizain.getAddress(wallet.secret)).toEqual(wallet.address);
+    expect(bizain.getAddress(wallet.secret)).to.equal(wallet.address);
   });
 
   it("Sign the serialized tx data.", () => {
@@ -65,8 +66,8 @@ describe("bizain", () => {
       bizain.getIssuer()
     );
     const signResult = bizain.sign(paymentTx, fromAccount.secret || "");
-    expect(Object.keys(signResult)).toContain("hash");
-    expect(Object.keys(signResult)).toContain("blob");
+    expect(Object.keys(signResult)).to.contain("hash");
+    expect(Object.keys(signResult)).to.contain("blob");
   });
 
   it("Multi sign the serialized tx data.", () => {
@@ -110,6 +111,6 @@ describe("bizain", () => {
       ]
     };
     const multiSignResult = bizain.multiSign(paymentTx, fromAccount.secret);
-    expect(multiSignResult).toEqual(expectResult);
+    expect(multiSignResult).to.eql(expectResult);
   });
 });

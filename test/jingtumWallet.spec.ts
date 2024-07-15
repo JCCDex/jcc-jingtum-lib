@@ -1,43 +1,44 @@
 import { AbstractWallet, serializePayment, Wallet } from "../src";
+import { expect } from "chai";
 
 describe("jingtum", () => {
   it("constructor", () => {
     const jingtum = new Wallet("jingtum");
-    expect(jingtum).toBeInstanceOf(AbstractWallet);
+    expect(jingtum).to.be.instanceOf(AbstractWallet);
     const gmJingtum = new Wallet({ guomi: true });
-    expect(gmJingtum).toBeInstanceOf(AbstractWallet);
+    expect(gmJingtum).to.be.instanceOf(AbstractWallet);
   });
 
   it("Create a jingtum wallet and verify that the generated content is correct.", () => {
     const jingtum = new Wallet("jingtum");
     const wallet = jingtum.createWallet();
-    expect(jingtum.isValidSecret(wallet.secret || "")).toEqual(true);
-    expect(jingtum.isValidAddress(wallet.address || "")).toEqual(true);
+    expect(jingtum.isValidSecret(wallet.secret || "")).to.equal(true);
+    expect(jingtum.isValidAddress(wallet.address || "")).to.equal(true);
   });
 
   it("Perform hash digest processing on a data.", () => {
     const jingtum = new Wallet("jingtum");
     const content = "1234567890";
     const contentHashDigest = "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646";
-    expect(jingtum.generateHash256(content)).toEqual(contentHashDigest);
+    expect(jingtum.generateHash256(content)).to.equal(contentHashDigest);
     const gmJingtum = new Wallet({ guomi: true });
     const gmContentHashDigest = "2494b501874781a11750cfbfb40abeb353915629dbac984012db800feb83d315";
-    expect(gmJingtum.generateHash256(content)).toEqual(gmContentHashDigest);
+    expect(gmJingtum.generateHash256(content)).to.equal(gmContentHashDigest);
   });
 
   it("Get fee.", () => {
     const jingtum = new Wallet("jingtum");
-    expect(jingtum.getFee()).toEqual(10000);
+    expect(jingtum.getFee()).to.equal(10000);
   });
 
   it("Get currency.", () => {
     const jingtum = new Wallet("jingtum");
-    expect(jingtum.getCurrency()).toEqual("SWT");
+    expect(jingtum.getCurrency()).to.equal("SWT");
   });
 
   it("Get issuer.", () => {
     const jingtum = new Wallet("jingtum");
-    expect(jingtum.getIssuer()).toEqual("jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or");
+    expect(jingtum.getIssuer()).to.equal("jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or");
   });
 
   it("Get the address of the corresponding secret.", () => {
@@ -46,7 +47,7 @@ describe("jingtum", () => {
       secret: "sshGrW6mFqRD2xyk7GwBF4avaFeWB",
       address: "jpfTTYjTpkA5s4rY5xXRb9ZzRqvHs931DK"
     };
-    expect(jingtum.getAddress(wallet.secret)).toEqual(wallet.address);
+    expect(jingtum.getAddress(wallet.secret)).to.equal(wallet.address);
   });
 
   it("Sign the serialized tx data.", () => {
@@ -70,8 +71,8 @@ describe("jingtum", () => {
       jingtum.getIssuer()
     );
     const signResult = jingtum.sign(paymentTx, fromAccount.secret);
-    expect(Object.keys(signResult)).toContain("hash");
-    expect(Object.keys(signResult)).toContain("blob");
+    expect(Object.keys(signResult)).to.contain("hash");
+    expect(Object.keys(signResult)).to.contain("blob");
   });
 
   it("Multi sign the serialized tx data.", () => {
@@ -122,6 +123,6 @@ describe("jingtum", () => {
       ]
     };
     const multiSignResult = jingtum.multiSign(paymentTx, fromAccount.secret || "");
-    expect(multiSignResult).toEqual(expectResult);
+    expect(multiSignResult).to.eql(expectResult);
   });
 });

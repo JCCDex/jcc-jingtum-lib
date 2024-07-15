@@ -1,6 +1,7 @@
 import * as tx from "../src/tx";
 import { Wallet, TokenFlag } from "../src";
 import * as tx_data from "./tx_data";
+import { expect } from "chai";
 
 describe("tx", () => {
   const jingtum = new Wallet("jingtum");
@@ -67,15 +68,15 @@ describe("tx", () => {
       jingtum.getFee(),
       jingtum.getIssuer()
     );
-    expect(serializeTX_buy).toEqual(tx_data.createOrder_buy);
-    expect(serializeTX_buy_2).toEqual(tx_data.createOrder_buy_2);
-    expect(serializeTX_sell).toEqual(tx_data.createOrder_sell);
-    expect(serializeTX_sell_2).toEqual(tx_data.createOrder_sell_2);
+    expect(serializeTX_buy).to.eql(tx_data.createOrder_buy);
+    expect(serializeTX_buy_2).to.eql(tx_data.createOrder_buy_2);
+    expect(serializeTX_sell).to.eql(tx_data.createOrder_sell);
+    expect(serializeTX_sell_2).to.eql(tx_data.createOrder_sell_2);
   });
 
   it("serializeCancelOrder", () => {
     const serializeTX = tx.serializeCancelOrder(fromAccount.address, 1, jingtum.getFee());
-    expect(serializeTX).toEqual(tx_data.cancelOrder);
+    expect(serializeTX).to.eql(tx_data.cancelOrder);
   });
 
   it("serializePayment", () => {
@@ -97,7 +98,7 @@ describe("tx", () => {
       jingtum.getIssuer()
     );
 
-    expect(serializeTX).toEqual(tx_data.payment);
+    expect(serializeTX).to.eql(tx_data.payment);
   });
 
   it("serializeBrokerage", () => {
@@ -110,7 +111,7 @@ describe("tx", () => {
       jingtum.getIssuer(),
       jingtum.getFee()
     );
-    expect(serializeTX).toEqual(tx_data.brokerage);
+    expect(serializeTX).to.eql(tx_data.brokerage);
   });
 
   it("serializeSignerList", () => {
@@ -122,27 +123,27 @@ describe("tx", () => {
         }
       }
     ]);
-    expect(serializeTX).toEqual(tx_data.signerList);
+    expect(serializeTX).to.eql(tx_data.signerList);
   });
 
   it("serializeSetAccount", () => {
     const serializeTX = tx.serializeSetAccount(fromAccount.address, true, jingtum.getFee());
-    expect(serializeTX).toEqual(tx_data.setAccount);
+    expect(serializeTX).to.eql(tx_data.setAccount);
   });
 
   it("serializeSetBlackList", () => {
     const serializeTX = tx.serializeSetBlackList(toAccount.address, fromAccount.address, "test", jingtum.getFee());
-    expect(serializeTX).toEqual(tx_data.setBlackList);
+    expect(serializeTX).to.eql(tx_data.setBlackList);
   });
 
   it("serializeRemoveBlackList", () => {
     const serializeTX = tx.serializeRemoveBlackList(fromAccount.address, toAccount.address, "test", jingtum.getFee());
-    expect(serializeTX).toEqual(tx_data.removeBlackList);
+    expect(serializeTX).to.eql(tx_data.removeBlackList);
   });
 
   it("serializeManageIssuer", () => {
     const serializeTX = tx.serializeManageIssuer(toAccount.address, fromAccount.address, "test", jingtum.getFee());
-    expect(serializeTX).toEqual(tx_data.manageIssuer);
+    expect(serializeTX).to.eql(tx_data.manageIssuer);
   });
 
   it("serializeIssueSet", () => {
@@ -154,7 +155,7 @@ describe("tx", () => {
       jingtum.getIssuer(),
       jingtum.getFee()
     );
-    expect(serializeTX).toEqual(tx_data.issueSet);
+    expect(serializeTX).to.eql(tx_data.issueSet);
   });
 
   it("serializeTokenIssue", () => {
@@ -166,7 +167,7 @@ describe("tx", () => {
       TokenFlag.NON_CIRCULATION,
       1
     );
-    expect(serializeTX).toEqual(tx_data.tokenIssue);
+    expect(serializeTX).to.eql(tx_data.tokenIssue);
   });
 
   it("serialize721Publish", () => {
@@ -176,17 +177,17 @@ describe("tx", () => {
         data: "SWT"
       }
     ]);
-    expect(serializeTX).toEqual(tx_data.publish721);
+    expect(serializeTX).to.eql(tx_data.publish721);
   });
 
   it("serialize721Payment", () => {
     const serializeTX = tx.serialize721Payment(fromAccount.address, toAccount.address, "123", jingtum.getFee(), "test");
-    expect(serializeTX).toEqual(tx_data.payment721);
+    expect(serializeTX).to.eql(tx_data.payment721);
   });
 
   it("serialize721Delete", () => {
     const serializeTX = tx.serialize721Delete(fromAccount.address, "123", jingtum.getFee());
-    expect(serializeTX).toEqual(tx_data.delete721);
+    expect(serializeTX).to.eql(tx_data.delete721);
   });
 
   it("serializeTrustSet", () => {
@@ -200,6 +201,6 @@ describe("tx", () => {
       "test",
       jingtum.getFee()
     );
-    expect(serializeTX).toEqual(tx_data.trustSet);
+    expect(serializeTX).to.eql(tx_data.trustSet);
   });
 });

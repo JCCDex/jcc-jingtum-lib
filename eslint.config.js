@@ -17,7 +17,9 @@ module.exports = tseslint.config(
       "lib",
       "eslint.config.js",
       "jest.config.js",
-      "babel.config.js"
+      "babel.config.js",
+      "karma.conf.js",
+      "webpack.config.js"
     ]
   },
   {
