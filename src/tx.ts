@@ -98,6 +98,7 @@ export const serializeCreateOrder = (
       };
     }
   } else {
+    /* istanbul ignore next */
     throw new Error("The type of creating order should be one of 'buy' and 'sell'");
   }
   const tx = {

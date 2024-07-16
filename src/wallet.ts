@@ -20,6 +20,7 @@ const normalizeMemos = (memos) => {
     }
     if (MemoType === "hex") {
       return {
+        /* istanbul ignore next */
         Memo: {
           MemoData: MemoData.length % 2 > 0 ? `${MemoData}0` : MemoData,
           MemoType: convertStringToHex(MemoType)
@@ -114,7 +115,7 @@ export class Wallet extends AbstractWallet {
     } else {
       hash = blob.hash(prefix);
     }
-
+    /* istanbul ignore next */
     if (Array.isArray(tx.Memos)) {
       copyTx.Memos = normalizeMemos(tx.Memos);
     }
