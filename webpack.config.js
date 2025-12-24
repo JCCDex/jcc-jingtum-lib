@@ -7,8 +7,10 @@ const TerserPlugin = require("terser-webpack-plugin");
 const config = {
   entry: "./src",
   output: {
-    filename: "jcc-jingtum-lib.min.js",
-    path: path.resolve(__dirname, "./dist")
+    filename: "jingtum-lib.min.js",
+    path: path.resolve(__dirname, "./dist"),
+    library: "jingtum_lib",
+    libraryTarget: "umd"
   },
   target: "web",
   resolve: {
@@ -28,7 +30,7 @@ const config = {
       })
     ]
   },
-  mode: "production",
+  mode: process.env.MODE === "dev" ? "development" : "production",
   module: {
     rules: [
       {
@@ -41,7 +43,12 @@ const config = {
       }
     ]
   },
-  plugins: [new DuplicatePackageCheckerPlugin(), new NodePolyfillPlugin()]
+  plugins: [
+    new DuplicatePackageCheckerPlugin(),
+    new NodePolyfillPlugin({
+      excludeAliases: ["process", "console", "crypto"]
+    })
+  ]
 };
 
 if (process.env.REPORT === "true") {
