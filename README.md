@@ -2,7 +2,7 @@
 
 ## Installation
 
-**Requires Node.js ≥18.0.0**
+**Requires Node.js ≥20.0.0**
 
 ```shell
 npm install @jccdex/jingtum-lib
