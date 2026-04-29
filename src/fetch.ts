@@ -11,7 +11,8 @@ export const AxiosInterceptorsFactory = (options?: ICustomAxiosInterceptorsOptio
 
   const service = axios.create({
     timeout: timeout || 30000,
-    adapter: ["fetch", "xhr", "http"]
+    // Restrict to fetch/XHR adapters to prevent plaintext HTTP in Node.js environments
+    adapter: ["fetch", "xhr"]
   });
 
   service.interceptors.request.use(

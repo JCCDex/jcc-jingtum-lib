@@ -20,9 +20,9 @@ const normalizeMemos = (memos) => {
     }
     if (MemoType === "hex") {
       return {
-        /* istanbul ignore next */
         Memo: {
-          MemoData: MemoData.length % 2 > 0 ? `${MemoData}0` : MemoData,
+          // Hex strings must have even length; prepend '0' to preserve value correctness
+          MemoData: MemoData.length % 2 > 0 ? `0${MemoData}` : MemoData,
           MemoType: convertStringToHex(MemoType)
         }
       };
@@ -45,6 +45,9 @@ export class Wallet extends AbstractWallet {
   }
 
   public getAddress(secret: string): string {
+    if (typeof secret !== "string" || secret.length === 0) {
+      throw new Error("Invalid secret: must be a non-empty string");
+    }
     const wallet = this.wallet.fromSecret(secret);
     return wallet.address;
   }
@@ -77,7 +80,21 @@ export class Wallet extends AbstractWallet {
     return this.wallet.getIssuer();
   }
 
+  /**
+   * Sign a transaction with the given secret.
+   *
+   * @param {unknown} tx - The transaction object to sign. Must be a non-null object.
+   * @param {string} secret - The wallet secret key. Must be a non-empty string.
+   * @returns {SignResult} Object containing `hash` and `blob` of the signed transaction.
+   * @throws {Error} If `tx` or `secret` are invalid.
+   */
   public sign(tx, secret: string): SignResult {
+    if (tx === null || typeof tx !== "object") {
+      throw new Error("Invalid tx: must be a non-null object");
+    }
+    if (typeof secret !== "string" || secret.length === 0) {
+      throw new Error("Invalid secret: must be a non-empty string");
+    }
     const wallet = new this.wallet(secret);
     const copyTx = Object.assign({}, tx);
     copyTx.SigningPubKey = wallet.getPublicKey();
@@ -97,7 +114,24 @@ export class Wallet extends AbstractWallet {
     };
   }
 
+  /**
+   * Multi-sign a transaction with the given secret.
+   *
+   * Adds a Signer entry for this account. The returned object can be collected
+   * with other signers and submitted via `submitMultiSigned`.
+   *
+   * @param {unknown} tx - The transaction object. Must be a non-null object.
+   * @param {string} secret - The wallet secret key. Must be a non-empty string.
+   * @returns The transaction with the Signers array containing this signer's entry.
+   * @throws {Error} If `tx` or `secret` are invalid.
+   */
   public multiSign(tx, secret: string) {
+    if (tx === null || typeof tx !== "object") {
+      throw new Error("Invalid tx: must be a non-null object");
+    }
+    if (typeof secret !== "string" || secret.length === 0) {
+      throw new Error("Invalid secret: must be a non-empty string");
+    }
     const wallet = new this.wallet(secret);
     const copyTx = cloneDeep(tx);
     // 多签的时候SigningPubKey必须有但是保持为空

@@ -8,7 +8,6 @@
     "test": "jest --coverage",
     "test:browser": "karma start karma.conf.js",
     "lint": "npx eslint",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "pretty": "pretty-quick --staged",
     "compile": "tsc",
     "deploy": "./publish.sh",
@@ -24,6 +23,10 @@
   ],
   "author": "JCCDex",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
+  },
   "bugs": {
     "url": "https://github.com/JCCDex/jcc-jingtum-lib/issues"
   },
@@ -40,9 +43,7 @@
     "@typescript-eslint/parser": "^7.14.1",
     "babel-jest": "^27.0.6",
     "babel-loader": "^9.1.3",
-    "benchmark": "^2.1.4",
     "chai": "4.2.0",
-    "coveralls": "^3.1.1",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "eslint": "^9.5.0",
     "husky": "^7.0.2",
@@ -72,12 +73,18 @@
   "files": [
     "lib"
   ],
+  "resolutions": {
+    "elliptic": "6.6.1",
+    "follow-redirects": "1.16.0",
+    "cross-spawn": "7.0.6",
+    "serialize-javascript": "6.0.2"
+  },
   "dependencies": {
-    "@swtc/serializer": "^1.1.0",
-    "@swtc/wallet": "^1.0.20",
-    "axios": "^1.7.2",
-    "lodash.clonedeep": "^4.5.0",
-    "utf8": "^3.0.0"
+    "@swtc/serializer": "1.2.0",
+    "@swtc/wallet": "1.2.0",
+    "axios": "1.15.2",
+    "lodash.clonedeep": "4.5.0",
+    "utf8": "3.0.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

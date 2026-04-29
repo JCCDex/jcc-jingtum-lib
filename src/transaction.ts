@@ -520,6 +520,19 @@ export class Transaction {
     return res;
   }
 
+  /**
+   * Sign and submit a transaction to the network, handling sequence conflicts automatically.
+   *
+   * The sequence number is managed by an internal cache. On `terPRE_SEQ` or
+   * `tefPAST_SEQ` errors the cache is reset and the submission is retried up to
+   * `this.retry` times. The sequence cache is incremented on success and cleared
+   * on any other error so subsequent calls always start fresh.
+   *
+   * @param {string} secret - Wallet secret used to sign the transaction.
+   * @param {object} tx - Unsigned transaction object (must include `Account`).
+   * @returns {Promise<string>} Resolves with the transaction hash on `tesSUCCESS`.
+   * @throws {Error} Descriptive error containing `engine_result` code and message (no raw response body).
+   */
   public async submit(secret: string, tx): Promise<string> {
     let hash;
     let retry = this.retry;
@@ -537,12 +550,14 @@ export class Transaction {
           hash = res.result.tx_json.hash;
         } else {
           if (engine_result !== "terPRE_SEQ" && engine_result !== "tefPAST_SEQ") {
-            throw new Error(JSON.stringify(res));
+            const errMsg = res?.result?.engine_result_message || engine_result || "Transaction failed";
+            throw new Error(`Transaction rejected: ${engine_result} - ${errMsg}`);
           }
           retry = retry - 1;
           swtcSequence.reset(tx.Account as string);
           if (retry < 0) {
-            throw new Error(JSON.stringify(res));
+            const errMsg = res?.result?.engine_result_message || engine_result || "Max retries exceeded";
+            throw new Error(`Transaction failed after retries: ${engine_result} - ${errMsg}`);
           }
         }
       }

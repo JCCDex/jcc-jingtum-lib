@@ -103,7 +103,7 @@ describe("seaaps", () => {
       Destination: "dTUXStyLbXPSPmX851B8U6AKrcqomr9dg",
       Fee: "80000",
       Flags: 0,
-      Memos: [{ Memo: { MemoData: "1230", MemoType: "686578" } }],
+      Memos: [{ Memo: { MemoData: "0123", MemoType: "686578" } }],
       TransactionType: "Payment",
       SigningPubKey: "",
       Signers: [

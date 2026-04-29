@@ -125,4 +125,74 @@ describe("jingtum", () => {
     const multiSignResult = jingtum.multiSign(paymentTx, fromAccount.secret || "");
     expect(multiSignResult).to.eql(expectResult);
   });
+
+  it("Odd-length hex MemoData should be left-padded with '0' (not right-padded).", () => {
+    const jingtum = new Wallet("jingtum");
+    const fromAccount = {
+      secret: "sEdVmyqoq2ZhZEQdUtBGCexBAhE7Dof",
+      address: "jp4nUEDsePuy4YGhwZT3g7X89kT1rFjPaF"
+    };
+    const toAccount = {
+      secret: "sshGrW6mFqRD2xyk7GwBF4avaFeWB",
+      address: "jpfTTYjTpkA5s4rY5xXRb9ZzRqvHs931DK"
+    };
+    const paymentTx = serializePayment(
+      fromAccount.address,
+      "1",
+      toAccount.address,
+      jingtum.getCurrency(),
+      [{ Memo: { MemoData: "abc", MemoType: "hex" } }],
+      jingtum.getFee(),
+      jingtum.getCurrency(),
+      jingtum.getIssuer()
+    );
+    const result = jingtum.multiSign(paymentTx, fromAccount.secret) as Record<string, unknown>;
+    const memoData = (result.Memos as Array<{ Memo: { MemoData: string } }>)[0].Memo.MemoData;
+    // Odd-length "abc" (3 chars) must be left-padded to "0abc", not right-padded to "abc0"
+    expect(memoData).to.equal("0abc");
+  });
+
+  it("sign() should throw when tx is null or not an object.", () => {
+    const jingtum = new Wallet("jingtum");
+    const secret = "sEdVmyqoq2ZhZEQdUtBGCexBAhE7Dof";
+    expect(() => jingtum.sign(null, secret)).to.throw("Invalid tx");
+    expect(() => jingtum.sign("not-an-object" as unknown as object, secret)).to.throw("Invalid tx");
+  });
+
+  it("sign() should throw when secret is empty or not a string.", () => {
+    const jingtum = new Wallet("jingtum");
+    const fromAccount = {
+      secret: "sEdVmyqoq2ZhZEQdUtBGCexBAhE7Dof",
+      address: "jp4nUEDsePuy4YGhwZT3g7X89kT1rFjPaF"
+    };
+    const toAccount = {
+      secret: "sshGrW6mFqRD2xyk7GwBF4avaFeWB",
+      address: "jpfTTYjTpkA5s4rY5xXRb9ZzRqvHs931DK"
+    };
+    const paymentTx = serializePayment(
+      fromAccount.address,
+      "1",
+      toAccount.address,
+      jingtum.getCurrency(),
+      "",
+      jingtum.getFee(),
+      jingtum.getCurrency(),
+      jingtum.getIssuer()
+    );
+    expect(() => jingtum.sign(paymentTx, null as unknown as string)).to.throw("Invalid secret");
+    expect(() => jingtum.sign(paymentTx, "")).to.throw("Invalid secret");
+  });
+
+  it("getAddress() should throw when secret is empty or not a string.", () => {
+    const jingtum = new Wallet("jingtum");
+    expect(() => jingtum.getAddress(null as unknown as string)).to.throw("Invalid secret");
+    expect(() => jingtum.getAddress("")).to.throw("Invalid secret");
+  });
+
+  it("multiSign() should throw when tx is null or secret is empty.", () => {
+    const jingtum = new Wallet("jingtum");
+    const secret = "sEdVmyqoq2ZhZEQdUtBGCexBAhE7Dof";
+    expect(() => jingtum.multiSign(null, secret)).to.throw("Invalid tx");
+    expect(() => jingtum.multiSign({}, "")).to.throw("Invalid secret");
+  });
 });
