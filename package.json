@@ -12,7 +12,8 @@
     "compile": "tsc",
     "deploy": "./publish.sh",
     "prepare": "husky install",
-    "typedoc": "typedoc src/index.ts"
+    "typedoc": "typedoc src/index.ts",
+    "audit": "bash -c 'yarn audit --level high; test $? -lt 8'"
   },
   "repository": {
     "type": "git",
@@ -73,15 +74,21 @@
     "lib"
   ],
   "resolutions": {
-    "elliptic": "6.6.1",
-    "follow-redirects": "1.16.0",
+    "@babel/plugin-transform-modules-systemjs": "7.29.4",
+    "@tootallnate/once": "2.0.1",
     "cross-spawn": "7.0.6",
-    "serialize-javascript": "6.0.2"
+    "elliptic": "6.6.1",
+    "fast-uri": "3.1.2",
+    "follow-redirects": "1.16.0",
+    "qs": "6.15.2",
+    "serialize-javascript": "7.0.5",
+    "tmp": "0.2.6",
+    "ws": "8.20.1"
   },
   "dependencies": {
     "@swtc/serializer": "1.2.0",
     "@swtc/wallet": "1.2.0",
-    "axios": "1.15.2",
+    "axios": "1.16.0",
     "lodash.clonedeep": "4.5.0",
     "utf8": "3.0.0"
   }
